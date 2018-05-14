@@ -5,9 +5,19 @@
 
 using namespace std;
 
+class Filme {
+    string nome;
+    int ano;
+    string genero;
+    string descricao;
+};
 
-void gerente(){}
-void usuario(){}
+class Usuario {
+    string nome;
+
+};
+void gerente(){};
+void selecionaUsuario(string nome){};
 
 void apresentacao() {
 
@@ -29,7 +39,12 @@ void apresentacao() {
     cin>>opcao;
 
     if(opcao == 1) gerente();
-    else usuario();
+    else {
+        string nome;
+        cout<<"QUAL O SEU NOME DE USUÁRIO?"<<endl;
+        cin>>nome;
+        selecionaUsuario(nome);
+    } 
 }                                                                       
 
 int main(){
