@@ -2,11 +2,11 @@
 
 Repositório para o desenvolvimento do projeto para a disciplina de PLP(Paradigmas de Linguagem de Programação) de um sistema de locadora nas linguagens C++, Haskell e Prolog. 
 
-### DESCRIÇÃO DO PROJETO:
+#### DESCRIÇÃO DO PROJETO:
 
 O sistema irá fornecer, virtualmente, toda a logística que uma locadora de filmes oferece ao seu cliente.
 
-### ESPECIFICAÇÃO DO PROJETO:
+#### ESPECIFICAÇÃO DO PROJETO:
 
 * Ao ser executado, o sistema deve fornecer um menu de navegação que apresentará ao usuário as operações disponíveis, sendo possível selecioná-las. 
 * O usuário poderá ter acesso a uma listagem de todos os filmes nas quais ele pode alugar.
