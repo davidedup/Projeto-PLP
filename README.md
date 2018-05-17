@@ -9,6 +9,8 @@ O sistema irá fornecer, virtualmente, toda a logística que uma locadora de fil
 #### ESPECIFICAÇÃO DO PROJETO:
 
 * Ao ser executado, o sistema deve fornecer um menu de navegação que apresentará ao usuário as operações disponíveis, sendo possível selecioná-las. 
+* O gerente tem uma senha padrão para ter acesso as opções de deletar e apagar do acervo.
+* O cliente faz login através do CPF.
 * O usuário poderá ter acesso a uma listagem de todos os filmes nas quais ele pode alugar.
 * O usuário poderá selecionar um filme disponível e alugá-lo. Se esse filme for a única unidade disponível no sistema, ele deve ser retirado da lista de filmes * disponíveis.
 * O usuário poderá reservar um filme.
