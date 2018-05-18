@@ -3,8 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
+#include <map>
 using std::vector;
 using std::string;
+using std::map;
 using namespace std;
 
 struct Filme {
@@ -13,7 +15,7 @@ struct Filme {
     string genero;
     string descricao;
     int quantidade;
-    int quantidadeDisponivel; 
+    int quantidadeDisponivel;
 };
 
 struct Usuario {
@@ -25,9 +27,11 @@ void apresentacao();
 void editarFilme();
 void opcoesGerente();
 void menuUsuario();
+void logarUsuario();
 
 vector<Filme> filmesCadastrados;
 vector<Usuario> usuariosCadastrados;
+map<string,Usuario> usuariossCadastrados;
 
 
 void cadastrarFilme(){
@@ -44,7 +48,7 @@ void cadastrarFilme(){
         cin>>filme.descricao;
         cout<<"Insira a quantidade de copias: ";
         cin>>filme.quantidade;
-    
+
         filmesCadastrados.push_back(filme);
 
         int op;
@@ -131,7 +135,16 @@ void cadastrarUsuario() {
         cin>>usuario.nome;
         cout<<"Insira o seu cpf: ";
         cin>>usuario.cpf;
-        
+
+        if (usuariossCadastrados.find(usuario.cpf) == usuariossCadastrados.end()) {
+            usuariossCadastrados[usuario.cpf] = usuario;
+            cout << "Usuario cadastrado com sucesso!\n" << endl;
+            menuUsuario();
+        } else {
+            cout << "Usuario já existe" << endl;
+        }
+
+        /*
         if(usuarioNaoExiste(usuario)) {
             usuariosCadastrados.push_back(usuario);
             cout << "Usuario cadastrado com sucesso!\n" << endl;
@@ -139,6 +152,7 @@ void cadastrarUsuario() {
         } else{
             cout << "Usuario já existe" << endl;
         }
+        */
 
 }
 
@@ -155,11 +169,11 @@ void menuUsuario() {
     } else if(opcao == 1) {
         cadastrarUsuario();
     } else if( opcao == 2) {
-        // logarUsuario();
+        logarUsuario();
     }
     else{
         menuUsuario();
-    } 
+    }
 
     // string nome;
     //     cout<<"QUAL O SEU NOME DE USUÁRIO?"<<endl;
@@ -168,13 +182,13 @@ void menuUsuario() {
 }
 
 void imprimeFilmesDisponiveis(){
-    
+
     for(int i = 0; i < filmesCadastrados.size(); i++){
         if(filmesCadastrados[i].quantidadeDisponivel > 0){
             cout << filmesCadastrados[i].nome << " - " << filmesCadastrados[i].ano << " - " << filmesCadastrados[i].genero << endl;
         }
     }
-    
+
 }
 
 void menuUsuarioLogado(){
@@ -182,17 +196,17 @@ void menuUsuarioLogado(){
     cout << "Selecione uma opção: " << endl;
     cout << "(0) REALIZAR ALUGEL" << endl;
     cout << "(1) REALIZAR RESERVA" << endl;
-    cout << "(2) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
-    cout << "(3) LISTAR FILMES DISPONIVEIS" << endl;
+    cout << "(2) LISTAR FILMES DISPONIVEIS" << endl;
+    cout << "(3) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
 
     if(opcao == 0){
         // Realizar aluguel
     } else if(opcao == 1) {
         // Realizar reserva
     } else if( opcao == 2) {
-        apresentacao();
-    } else if( opcao == 3) {
         imprimeFilmesDisponiveis();
+    } else if( opcao == 3) {
+        apresentacao();
     }else{
         cout << "DIGITE UMA OPÇÃO VALIDA";
         menuUsuarioLogado();
@@ -205,6 +219,17 @@ void logarUsuario(){
     string cpf;
     cin >> cpf;
 
+    if (usuariossCadastrados.find(cpf) != usuariossCadastrados.end()) {
+        cout << "Usuario encontrado!" << endl;
+        cout << "Você esta logado(a)!" << endl;
+        menuUsuarioLogado();
+    } else {
+        cout << "Usuario não encontrado!" << endl;
+        menuUsuario();
+    }
+
+
+    /*
     for(int i = 0; i < usuariosCadastrados.size(); i++){
         if(usuariosCadastrados[i].cpf == cpf){
             cout << "Usuario encontrado!" << endl;
@@ -212,6 +237,7 @@ void logarUsuario(){
             menuUsuarioLogado();
         }
     }
+    */
 
 }
 
@@ -255,7 +281,7 @@ void adcFilmeseUsuarios(){
     filme1.descricao = "um otimo filme de criança";
     filme1.ano = 2016;
     filme1.genero = "infantil";
-    
+
     Filme filme2;
     filme2.nome = "Vingadores";
     filme2.quantidade = 15;
@@ -283,7 +309,7 @@ void adcFilmeseUsuarios(){
     usuariosCadastrados.push_back(david);
     usuariosCadastrados.push_back(mariana);
     usuariosCadastrados.push_back(marcos);
-    
+
 }
 
 int main(){
