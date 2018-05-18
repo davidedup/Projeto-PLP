@@ -16,7 +16,19 @@ class Usuario {
     string nome;
 
 };
-void gerente(){};
+void gerente(){
+    string codigo;
+    cout<<"Bem-vindo a sessão de gerência do sistema"<<endl;
+    cout<<"Informe o codigo de permissao para continuar"<<endl;
+    cin>>codigo;
+
+    if(codigo == "admin") {
+        cout<<"Informe uma opçao para seguir:"<<endl;
+    }
+
+
+
+};
 void selecionaUsuario(string nome){};
 
 void apresentacao() {
@@ -44,10 +56,12 @@ void apresentacao() {
         cout<<"QUAL O SEU NOME DE USUÁRIO?"<<endl;
         cin>>nome;
         selecionaUsuario(nome);
-    } 
-}                                                                       
+    }
+}
 
 int main(){
+
+
     apresentacao();
     return 0;
 }
