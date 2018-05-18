@@ -25,8 +25,10 @@ struct Usuario {
 void apresentacao();
 void editarFilme();
 void opcoesGerente();
+void menuUsuario();
 
 vector<Filme> filmesCadastrados;
+vector<Usuario> usuariosCadastrados;
 
 void cadastrarFilme(){
     Filme filme;
@@ -85,7 +87,7 @@ void opcoesGerente() {
 
 }
 
-void gerente(){
+void menuGerente(){
     string codigo;
     cout<<"Bem-vindo a sessão de gerência do sistema"<<endl;
     cout<<"Informe o codigo de permissao para continuar"<<endl;
@@ -96,7 +98,7 @@ void gerente(){
 
     } else {
         cout<<"Código incorreto!"<<endl;
-        gerente();
+        menuGerente();
     }
 }
 
@@ -106,6 +108,66 @@ void editarFilme(){}
 
 
 void selecionaUsuario(string nome){};
+
+bool usuariosIguais(Usuario usuario1, Usuario usuario2) {
+    return usuario1.cpf == usuario2.cpf;
+}
+
+bool usuarioNaoExiste(Usuario usuario) {
+    bool usuarioExiste = false;
+    for (int i = 0; i < usuariosCadastrados.size(); i++) {
+        if (usuariosIguais(usuario, usuariosCadastrados.at(i))) {
+            usuarioExiste = true;
+        }
+    }
+    return !usuarioExiste;
+    
+}
+void cadastrarUsuario() {
+    Usuario usuario;
+
+    // try {
+        cout<<"Insira o seu nome de usuario: ";
+        cin>>usuario.nome;
+        cout<<"Insira o seu cpf: ";
+        cin>>usuario.cpf;
+        
+        if(usuarioNaoExiste(usuario)) {
+            usuariosCadastrados.push_back(usuario);
+            cout << "Usuario cadastrado com sucesso!\n" << endl;
+            menuUsuario();
+        } else{
+            cout << "Usuario já existe" << endl;
+        }
+
+}
+
+void menuUsuario() {
+    int opcao;
+    cout << "Selecione uma opção: " << endl;
+    cout << "(0) VOLTAR AO MENU PRINCIPAL" << endl;
+    cout << "(1) CADASTRAR-SE" << endl;
+    cout << "(2) LOGAR-SE" << endl;
+
+    cin >> opcao;
+    if(opcao == 0){
+        apresentacao();
+    } else if(opcao == 1) {
+        cadastrarUsuario();
+    } else if( opcao == 2) {
+        // logarUsuario();
+    }
+    else{
+        menuUsuario();
+    } 
+
+    // string nome;
+    //     cout<<"QUAL O SEU NOME DE USUÁRIO?"<<endl;
+    //     cin>>nome;
+    //     selecionaUsuario(nome);
+
+
+}
 
 void apresentacao() {
 
@@ -127,13 +189,11 @@ void apresentacao() {
     cin>>opcao;
 
     if(opcao == 1) {
-        gerente();
+        menuGerente();
     }
     else if(opcao == 2){
-        string nome;
-        cout<<"QUAL O SEU NOME DE USUÁRIO?"<<endl;
-        cin>>nome;
-        selecionaUsuario(nome);
+        cout << "Olá, Usuário!" << endl;
+        menuUsuario();
     } else {
         cout<<"SELECIONE UMA OPÇAO VALIDA!"<<endl;
         apresentacao();
