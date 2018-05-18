@@ -246,7 +246,50 @@ void apresentacao() {
     }
 }
 
+void adcFilmeseUsuarios(){
+
+    Filme filme1;
+    filme1.nome = "Frozen";
+    filme1.quantidade = 10;
+    filme1.quantidadeDisponivel = 10;
+    filme1.descricao = "um otimo filme de criança";
+    filme1.ano = 2016;
+    filme1.genero = "infantil";
+    
+    Filme filme2;
+    filme2.nome = "Vingadores";
+    filme2.quantidade = 15;
+    filme2.quantidadeDisponivel = 15;
+    filme2.descricao = "Filme de açao e super heroi";
+    filme2.ano = 2018;
+    filme2.genero = "ação";
+
+    filmesCadastrados.push_back(filme1);
+    filmesCadastrados.push_back(filme2);
+
+    Usuario david;
+    david.nome = "David";
+    david.cpf = "123";
+
+    Usuario mariana;
+    mariana.nome = "Mariana";
+    mariana.cpf = "001";
+
+    Usuario marcos;
+
+    marcos.nome = "Marcos";
+    marcos.cpf = "002";
+
+    usuariosCadastrados.push_back(david);
+    usuariosCadastrados.push_back(mariana);
+    usuariosCadastrados.push_back(marcos);
+    
+}
+
 int main(){
+
+    adcFilmeseUsuarios();
+
     apresentacao();
     return 0;
 }
