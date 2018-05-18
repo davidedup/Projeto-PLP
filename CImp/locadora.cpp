@@ -12,14 +12,13 @@ struct Filme {
     int ano;
     string genero;
     string descricao;
+    int quantidade;
+    int quantidadeDisponivel; 
 };
-
 
 struct Usuario {
     string cpf;
     string nome;
-
-
 };
 
 void apresentacao();
@@ -29,6 +28,7 @@ void menuUsuario();
 
 vector<Filme> filmesCadastrados;
 vector<Usuario> usuariosCadastrados;
+
 
 void cadastrarFilme(){
     Filme filme;
@@ -42,7 +42,9 @@ void cadastrarFilme(){
         cin>>filme.genero;
         cout<<"Insira uma descriçao para o filme: ";
         cin>>filme.descricao;
-
+        cout<<"Insira a quantidade de copias: ";
+        cin>>filme.quantidade;
+    
         filmesCadastrados.push_back(filme);
 
         int op;
@@ -105,8 +107,6 @@ void menuGerente(){
 
 void editarFilme(){}
 
-
-
 void selecionaUsuario(string nome){};
 
 bool usuariosIguais(Usuario usuario1, Usuario usuario2) {
@@ -121,8 +121,8 @@ bool usuarioNaoExiste(Usuario usuario) {
         }
     }
     return !usuarioExiste;
-    
 }
+
 void cadastrarUsuario() {
     Usuario usuario;
 
@@ -165,12 +165,58 @@ void menuUsuario() {
     //     cout<<"QUAL O SEU NOME DE USUÁRIO?"<<endl;
     //     cin>>nome;
     //     selecionaUsuario(nome);
+}
 
+void imprimeFilmesDisponiveis(){
+    
+    for(int i = 0; i < filmesCadastrados.size(); i++){
+        if(filmesCadastrados[i].quantidadeDisponivel > 0){
+            cout << filmesCadastrados[i].nome << " - " << filmesCadastrados[i].ano << " - " << filmesCadastrados[i].genero << endl;
+        }
+    }
+    
+}
+
+void menuUsuarioLogado(){
+    int opcao;
+    cout << "Selecione uma opção: " << endl;
+    cout << "(0) REALIZAR ALUGEL" << endl;
+    cout << "(1) REALIZAR RESERVA" << endl;
+    cout << "(2) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
+    cout << "(3) LISTAR FILMES DISPONIVEIS" << endl;
+
+    if(opcao == 0){
+        // Realizar aluguel
+    } else if(opcao == 1) {
+        // Realizar reserva
+    } else if( opcao == 2) {
+        apresentacao();
+    } else if( opcao == 3) {
+        imprimeFilmesDisponiveis();
+    }else{
+        cout << "DIGITE UMA OPÇÃO VALIDA";
+        menuUsuarioLogado();
+    }
 
 }
 
-void apresentacao() {
+void logarUsuario(){
+    cout << "Insira seu CPF: " << endl;
+    string cpf;
+    cin >> cpf;
 
+    for(int i = 0; i < usuariosCadastrados.size(); i++){
+        if(usuariosCadastrados[i].cpf == cpf){
+            cout << "Usuario encontrado!" << endl;
+            cout << "Você esta logado(a)!" << endl;
+            menuUsuarioLogado();
+        }
+    }
+
+}
+
+
+void apresentacao() {
 
     cout<<"██████╗ ███████╗███╗   ███╗    ██╗   ██╗██╗███╗   ██╗██████╗  ██████╗ "<<endl;
     cout<<"██╔══██╗██╔════╝████╗ ████║    ██║   ██║██║████╗  ██║██╔══██╗██╔═══██╗"<<endl;
@@ -200,11 +246,7 @@ void apresentacao() {
     }
 }
 
-
-
 int main(){
-
-
     apresentacao();
     return 0;
 }
