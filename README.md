@@ -1,3 +1,9 @@
+Quando for commitar algo que resolva uma das issues colocar como mensagem: 
+
+```sh
+git commit -m "mensagem de commit closes #numero_da_issue"
+```
+
 # Projeto-PLP
 
 Repositório para o desenvolvimento do projeto para a disciplina de PLP(Paradigmas de Linguagem de Programação) de um sistema de locadora nas linguagens C++, Haskell e Prolog. 
