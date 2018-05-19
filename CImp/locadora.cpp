@@ -300,8 +300,10 @@ void listarFilmesAlugados() {
     }
 
     if (filmesAlugados == 0) {
-        cout << "NENHUM FILME ESTA ALUGADO NO MOMENTO";
+        cout << "NENHUM FILME ESTA ALUGADO NO MOMENTO" << endl;
     }
+
+    opcoesGerente();
 }
 
 void editarFilme(){}
