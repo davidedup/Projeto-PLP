@@ -29,6 +29,7 @@ void adcFilmeseUsuarios();
 
 void cadastrarFilme();
 void editarFilme();
+void listarFilmesAlugados();
 void imprimeFilmesDisponiveis();
 
 void cadastrarUsuario();
@@ -166,7 +167,8 @@ void opcoesGerente() {
         cout<<"Informe uma opçao para seguir:"<<endl;
         cout<<"(1) CADASTRAR FILME NO SISTEMA"<<endl;
         cout<<"(2) EDITAR FILME DO SISTEMA"<<endl;
-        cout<<"(3) VOLTAR PARA O MENU PRINCIPAL"<<endl;
+        cout<<"(3) LISTAR FILMES ALUGADOS"<<endl;
+        cout<<"(4) VOLTAR PARA O MENU PRINCIPAL"<<endl;
 
         cin>>opcao;
 
@@ -175,6 +177,8 @@ void opcoesGerente() {
         } else if (opcao == 2) {
             // TODO editar filme do sistema
         } else if(opcao == 3) {
+            listarFilmesAlugados();
+        } else if(opcao == 4) {
             apresentacao();
         } else {
              cout<<"Opcao invalida"<<endl;
@@ -280,11 +284,25 @@ void cadastrarFilme(){
 void imprimeFilmesDisponiveis(){
     for(int i = 0; i < filmesCadastrados.size(); i++){
         if(filmesCadastrados[i].quantidadeDisponivel > 0){
-            cout << filmesCadastrados[i].nome << " - " << filmesCadastrados[i].ano << " - " << filmesCadastrados[i].genero << endl;
+            cout << i << "-" << filmesCadastrados[i].nome << " - " << filmesCadastrados[i].ano << " - " << filmesCadastrados[i].genero << endl;
         }
     }
 }
 
+void listarFilmesAlugados() {
+    int filmesAlugados = 0;
+
+    for(int i = 0; i < filmesCadastrados.size(); i++){
+        if(filmesCadastrados[i].quantidade > filmesCadastrados[i].quantidadeDisponivel){
+            filmesAlugados += 1;
+            cout << i << "-" << filmesCadastrados[i].nome << " - " << filmesCadastrados[i].ano << " - " << filmesCadastrados[i].genero << endl;
+        }
+    }
+
+    if (filmesAlugados == 0) {
+        cout << "NENHUM FILME ESTA ALUGADO NO MOMENTO";
+    }
+}
 
 void editarFilme(){}
 
