@@ -39,6 +39,7 @@ void menuUsuarioLogado();
 
 void opcoesGerente();
 void menuGerente();
+void limparTela();
 
 
 vector<Filme> filmesCadastrados;
@@ -47,6 +48,7 @@ map<string,Usuario> usuariosCadastrados;
 
 int main(){
 
+    // METODO TESTE PARA POPULAR SISTEMA.
     adcFilmeseUsuarios();
 
     apresentacao();
@@ -105,9 +107,9 @@ void apresentacao() {
 
     cout<<"À LOCADORA DE FILMES"<<endl;
     cout<<"COMO VOCÊ DESEJA SEGUIR?"<<endl;
-    cout<<"(1)GERENTE"<<endl;
-    cout<<"(2)USUÁRIO"<<endl;
-    cout<<"(3)SAIR"<<endl;
+    cout<<"(1) GERENTE"<<endl;
+    cout<<"(2) USUÁRIO"<<endl;
+    cout<<"(3) SAIR"<<endl;
 
     int opcao;
 
@@ -115,8 +117,11 @@ void apresentacao() {
 
     if(opcao == 3) {}
     else if(opcao == 1) {
+        limparTela();
         menuGerente();
     } else if(opcao == 2){
+
+        limparTela();
         cout << "Olá, Usuário!" << endl;
         menuUsuario();
     } else {
@@ -175,7 +180,7 @@ void opcoesGerente() {
         if(opcao == 1) {
             cadastrarFilme();
         } else if (opcao == 2) {
-            // TODO editar filme do sistema
+            editarFilme();
         } else if(opcao == 3) {
             listarFilmesAlugados();
         } else if(opcao == 4) {
@@ -306,6 +311,82 @@ void listarFilmesAlugados() {
     opcoesGerente();
 }
 
-void editarFilme(){}
+void editarFilme(){
+
+    cout<<"----> ABAIXO ESTÃO OS FILMES CADASTRADOS NO SISTEMA <----"<<endl;
+    cout<<"----> ESCOLHA O FILME NA QUAL VOCÊ DESEJA EDITAR <----"<<endl;
+
+    int opcao;
+    int opcaoFilme;
+    for(int i = 0; i < filmesCadastrados.size(); i++) {
+        cout<<"(";
+        cout<<i;
+        cout<<") ";
+        cout<<filmesCadastrados[i].nome<<endl;
+    }
+
+    cout<<"Indique o numero do filme você deseja editar: ";
+    cin>>opcaoFilme;
+
+
+    cout<<"====> VOCÊ ESTÁ EDITANDO O FILME " +  filmesCadastrados[opcaoFilme].nome + " <==="<<endl;
+    cout<<"-> Qual atributo você deseja editar?"<<endl;
+    cout<<"(1) NOME"<<endl;
+    cout<<"(2) ANO DE LANÇAMENTO"<<endl;
+    cout<<"(3) DESCRIÇÃO"<<endl;
+    cout<<"(4) QUANTIDADE"<<endl;
+    cout<<"Indique com o número: ";
+    cin>>opcao;
+
+
+    if(opcao == 1) {
+        string novoNome;
+        cout<<"Indique o novo nome para o filme " +  filmesCadastrados[opcaoFilme].nome + " ";
+        cin>>novoNome;
+         filmesCadastrados[opcaoFilme].nome = novoNome;
+        cout<<"Filme editado com sucesso!"<<endl;
+    } else if(opcao == 2) {
+        int novoAno;
+        cout<<"Indique o novo ano de lançamento para o filme " +  filmesCadastrados[opcaoFilme].nome + " ";
+        cin>>novoAno;
+         filmesCadastrados[opcaoFilme].ano = novoAno;
+        cout<<"Filme editado com sucesso!"<<endl;
+    } else if(opcao == 3) {
+        string novaDescricao;
+        cout<<"Indique uma nova descrição para o filme " +  filmesCadastrados[opcaoFilme].nome + " ";
+        cin>>novaDescricao;
+         filmesCadastrados[opcaoFilme].descricao = novaDescricao;
+        cout<<"Filme editado com sucesso!"<<endl;
+    } else if(opcao == 4) {
+        int novaQtd;
+        cout<<"Indique a nova quantidade para o filme " +  filmesCadastrados[opcaoFilme].nome + " ";
+        cin>>novaQtd;
+         filmesCadastrados[opcaoFilme].quantidade = novaQtd;
+        cout<<"Filme editado com sucesso!"<<endl;;
+    } else {
+        limparTela();
+        cout<<"OPCAO INVALIDA!"<<endl;
+        editarFilme();
+    }
+
+    cout<<"DESEJA EDITAR OUTRO FILME?"<<endl;
+    cout<<"(1) SIM"<<endl;
+    cout<<"(2) NÃO"<<endl;
+    cin>>opcao;
+
+    if(opcao == 1) {
+        limparTela();
+        editarFilme();
+    } else {
+        limparTela();
+        opcoesGerente();
+    }
+
+}
+
+  void limparTela(){
+    cout << string( 100, '\n' );
+    }
+
 
 void selecionaUsuario(string nome){};
