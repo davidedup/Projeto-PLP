@@ -81,8 +81,8 @@ void adcFilmeseUsuarios(){
 
     Filme filme1;
     filme1.nome = "Frozen";
-    filme1.quantidade = 10;
-    filme1.quantidadeDisponivel = 10;
+    filme1.quantidade = 2;
+    filme1.quantidadeDisponivel = 2;
     filme1.descricao = "um otimo filme de criança";
     filme1.ano = 2016;
     filme1.genero = "infantil";
@@ -251,10 +251,11 @@ void listarAlugados(){
     if(logadoAgora.filmesAlugados.size() > 0){
         for(int i = 0; i < logadoAgora.filmesAlugados.size(); i++){
             int filmeIndex = logadoAgora.filmesAlugados[i].filmeIndex;
-            cout << filmesCadastrados[filmeIndex].nome << endl;
+            cout << i+1  << " " << filmesCadastrados[filmeIndex].nome << endl;
             // TODO:  colocar para imprimir data de devolução
         }
     }
+    menuUsuarioLogado();
 }
 
 void menuUsuarioLogado(){
@@ -277,6 +278,7 @@ void menuUsuarioLogado(){
     } else if (opcao == 4) {
         listarAlugados();
     } else if (opcao == 5) {
+        //ver como faz isso: logadoAgora = NULL; 
         apresentacao();    
     } else {
         cout << "DIGITE UMA OPÇÃO VALIDA";
@@ -292,12 +294,13 @@ void alugarFilme(){
     aluguel.data = getData(); 
 
     Filme filme = filmesCadastrados[aluguel.filmeIndex];
-
+    
     if(aluguel.filmeIndex < filmesCadastrados.size()){ 
         if(filme.quantidadeDisponivel > 0){
-            filme.quantidadeDisponivel--;
-            menuUsuarioLogado();
+            filmesCadastrados[aluguel.filmeIndex].quantidadeDisponivel--;
             logadoAgora.filmesAlugados.push_back(aluguel);
+            cout << "Filme: " + filme.nome + " foi alugado!" << endl;
+            menuUsuarioLogado();
         }else{
             cout << "Filme indisponível para alugar" << endl; ;
             alugarFilme();
@@ -345,12 +348,12 @@ void cadastrarFilme(){
 
 }
 
-
 void imprimeFilmesDisponiveis(){
     cout<<"Filmes disponíveis:"<<endl;
     for(int i = 0; i < filmesCadastrados.size(); i++){
         if(filmesCadastrados[i].quantidadeDisponivel > 0){
             cout << i << " - " << filmesCadastrados[i].nome<<endl;
+            cout << "Quantidade de copias disponiveis: " << filmesCadastrados[i].quantidadeDisponivel << endl;
         }
     }
     descreverFilme();
