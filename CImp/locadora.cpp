@@ -23,6 +23,11 @@ struct Usuario {
     string nome;
 };
 
+struct Aluguel{
+    int filmeIndex;
+    int data;
+};
+
 void apresentacao();
 
 void adcFilmeseUsuarios();
@@ -32,6 +37,8 @@ void editarFilme();
 void listarFilmesAlugados();
 void imprimeFilmesDisponiveis();
 void descreverFilme();
+void alugarFilme();
+int getData();
 
 void cadastrarUsuario();
 void logarUsuario();
@@ -54,6 +61,17 @@ int main(){
 
     apresentacao();
     return 0;
+}
+
+int getData(){
+    time_t now;
+
+    struct tm nowLocal;
+    now=time(NULL);
+
+    nowLocal=*localtime(&now);
+
+    return nowLocal.tm_mday;
 }
 
 
@@ -230,24 +248,47 @@ void logarUsuario(){
 void menuUsuarioLogado(){
     int opcao;
     cout << "Selecione uma opção: " << endl;
-    cout << "(0) REALIZAR ALUGEL" << endl;
-    cout << "(1) REALIZAR RESERVA" << endl;
-    cout << "(2) LISTAR FILMES DISPONIVEIS" << endl;
-    cout << "(3) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
+    cout << "(1) REALIZAR ALUGEL" << endl;
+    cout << "(2) REALIZAR RESERVA" << endl;
+    cout << "(3) LISTAR FILMES DISPONIVEIS" << endl;
+    cout << "(4) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
 
     cin >> opcao;
 
-    if (opcao == 0){
-        // Realizar aluguel
-    } else if(opcao == 1) {
+    if (opcao == 1){
+        alugarFilme();
+    } else if(opcao == 2) {
         // Realizar reserva
-    } else if (opcao == 2) {
-        imprimeFilmesDisponiveis();
     } else if (opcao == 3) {
+        imprimeFilmesDisponiveis();
+    } else if (opcao == 4) {
         apresentacao();
     } else {
         cout << "DIGITE UMA OPÇÃO VALIDA";
         menuUsuarioLogado();
+    }
+}
+
+void alugarFilme(){
+    cout << "Digite o número do filme que você deseja alugar:" << endl;
+
+    Aluguel aluguel;
+    cin >> aluguel.filmeIndex;
+    aluguel.data = getData(); 
+
+    Filme filme = filmesCadastrados[aluguel.filmeIndex];
+
+    if(aluguel.filmeIndex < filmesCadastrados.size()){
+        if(filme.quantidadeDisponivel > 0){
+            filme.quantidadeDisponivel--;
+            menuUsuarioLogado();
+        }else{
+            cout << "Filme indisponível para alugar" << endl;
+            alugarFilme();
+        }
+    }else{
+        cout << "Digite um filme válido" << endl;
+        alugarFilme();
     }
 }
 
@@ -324,7 +365,7 @@ void descreverFilme(){
         }else{
             cout<<"Filme inexistente"<<endl;
         }
-        
+
         descreverFilme();
     } else if(opcao == 2) {
         menuUsuarioLogado();
