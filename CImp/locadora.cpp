@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,14 +17,15 @@ struct Filme {
     int quantidadeDisponivel;
 };
 
-struct Usuario {
-    string cpf;
-    string nome;
-};
-
 struct Aluguel{
     int filmeIndex;
     int data;
+};
+
+struct Usuario {
+    string cpf;
+    string nome;
+    vector<Aluguel> filmesAlugados;
 };
 
 void apresentacao();
@@ -52,6 +52,7 @@ void limparTela();
 
 vector<Filme> filmesCadastrados;
 map<string,Usuario> usuariosCadastrados;
+Usuario logadoAgora;
 
 
 int main(){
@@ -63,15 +64,16 @@ int main(){
     return 0;
 }
 
+//tava dando erro ai eu comentei :s
+// int getData(){
+ //    time_t now;
+ //    struct tm nowLocal;
+ //    now=time(NULL);
+ //    nowLocal=*localtime(&now);
+ //    return nowLocal.tm_mday;
+ //}
 int getData(){
-    time_t now;
-
-    struct tm nowLocal;
-    now=time(NULL);
-
-    nowLocal=*localtime(&now);
-
-    return nowLocal.tm_mday;
+    return 0;
 }
 
 
@@ -139,7 +141,6 @@ void apresentacao() {
         limparTela();
         menuGerente();
     } else if(opcao == 2){
-
         limparTela();
         cout << "Olá, Usuário!" << endl;
         menuUsuario();
@@ -158,7 +159,6 @@ void menuGerente(){
 
     if(codigo == "admin") {
         opcoesGerente();
-
     } else {
         cout<<"Código incorreto!"<<endl;
         menuGerente();
@@ -237,6 +237,8 @@ void logarUsuario(){
     if (usuariosCadastrados.find(cpf) != usuariosCadastrados.end()) {
         cout << "Usuario encontrado!" << endl;
         cout << "Você esta logado(a)!" << endl;
+        logadoAgora = usuariosCadastrados[cpf];
+        cout << "Bem-vindo " +  logadoAgora.nome << endl;
         menuUsuarioLogado();
     } else {
         cout << "Usuario não encontrado!" << endl;
@@ -244,14 +246,24 @@ void logarUsuario(){
     }
 }
 
+void listarAlugados(){
+    if(logadoAgora.filmesAlugados.size() > 0){
+        for(int i = 0; i < logadoAgora.filmesAlugados.size(); i++){
+            int filmeIndex = logadoAgora.filmesAlugados[i].filmeIndex;
+            cout << filmesCadastrados[filmeIndex].nome << endl;
+            // TODO:  colocar para imprimir data de devolução
+        }
+    }
+}
 
 void menuUsuarioLogado(){
     int opcao;
     cout << "Selecione uma opção: " << endl;
-    cout << "(1) REALIZAR ALUGEL" << endl;
+    cout << "(1) REALIZAR ALUGUEL" << endl;
     cout << "(2) REALIZAR RESERVA" << endl;
     cout << "(3) LISTAR FILMES DISPONIVEIS" << endl;
-    cout << "(4) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
+    cout << "(4) LISTAR MEUS ALUGUEIS" << endl;
+    cout << "(5) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
 
     cin >> opcao;
 
@@ -262,7 +274,9 @@ void menuUsuarioLogado(){
     } else if (opcao == 3) {
         imprimeFilmesDisponiveis();
     } else if (opcao == 4) {
-        apresentacao();
+        listarAlugados();
+    } else if (opcao == 5) {
+        apresentacao();    
     } else {
         cout << "DIGITE UMA OPÇÃO VALIDA";
         menuUsuarioLogado();
@@ -278,12 +292,13 @@ void alugarFilme(){
 
     Filme filme = filmesCadastrados[aluguel.filmeIndex];
 
-    if(aluguel.filmeIndex < filmesCadastrados.size()){
+    if(aluguel.filmeIndex < filmesCadastrados.size()){ 
         if(filme.quantidadeDisponivel > 0){
             filme.quantidadeDisponivel--;
             menuUsuarioLogado();
+            logadoAgora.filmesAlugados.push_back(aluguel);
         }else{
-            cout << "Filme indisponível para alugar" << endl;
+            cout << "Filme indisponível para alugar" << endl; ;
             alugarFilme();
         }
     }else{
