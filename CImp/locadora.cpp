@@ -224,7 +224,8 @@ void cadastrarUsuario() {
         cout << "Usuario cadastrado com sucesso!\n" << endl;
         menuUsuario();
     } else {
-        cout << "Usuario já existe" << endl;
+        cout << "ERRO: Usuario já existe, tente outro!" << endl;
+        menuUsuario();
     }
 }
 
@@ -274,7 +275,7 @@ void alugarFilme(){
 
     Aluguel aluguel;
     cin >> aluguel.filmeIndex;
-    aluguel.data = getData(); 
+    aluguel.data = getData();
 
     Filme filme = filmesCadastrados[aluguel.filmeIndex];
 
