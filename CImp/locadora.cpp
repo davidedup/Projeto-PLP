@@ -31,6 +31,7 @@ void cadastrarFilme();
 void editarFilme();
 void listarFilmesAlugados();
 void imprimeFilmesDisponiveis();
+void descreverFilme();
 
 void cadastrarUsuario();
 void logarUsuario();
@@ -234,6 +235,8 @@ void menuUsuarioLogado(){
     cout << "(2) LISTAR FILMES DISPONIVEIS" << endl;
     cout << "(3) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
 
+    cin >> opcao;
+
     if (opcao == 0){
         // Realizar aluguel
     } else if(opcao == 1) {
@@ -287,10 +290,44 @@ void cadastrarFilme(){
 
 
 void imprimeFilmesDisponiveis(){
+    cout<<"Filmes disponíveis:"<<endl;
     for(int i = 0; i < filmesCadastrados.size(); i++){
         if(filmesCadastrados[i].quantidadeDisponivel > 0){
-            cout << i << "-" << filmesCadastrados[i].nome << " - " << filmesCadastrados[i].ano << " - " << filmesCadastrados[i].genero << endl;
+            cout << i << " - " << filmesCadastrados[i].nome<<endl;
         }
+    }
+    descreverFilme();
+}
+
+void descreverFilme(){
+    int opcao;
+
+    cout<<"Deseja saber mais sobre algum filme?"<<endl;
+        cout<<"(1) SIM"<<endl;
+        cout<<"(2) NÃO"<<endl;
+
+    cin >> opcao;
+
+    if(opcao == 1) {
+        int filme;
+
+        cout<<"Qual o número do filme deseja saber mais sobre?"<<endl;
+        cin >> filme;
+
+        if(filme<filmesCadastrados.size()){
+            cout<<"Nome: "<<filmesCadastrados[filme].nome<<endl;
+            cout<<"Quantidade: "<<filmesCadastrados[filme].quantidade<<endl;
+            cout<<"Quantidade Disponivel: "<<filmesCadastrados[filme].quantidadeDisponivel<<endl;
+            cout<<"Descrição: "<<filmesCadastrados[filme].descricao<<endl;
+            cout<<"Ano: "<<filmesCadastrados[filme].ano<<endl;
+            cout<<"Gênero: "<<filmesCadastrados[filme].genero<<endl;
+        }else{
+            cout<<"Filme inexistente"<<endl;
+        }
+        
+        descreverFilme();
+    } else if(opcao == 2) {
+        menuUsuarioLogado();
     }
 }
 
