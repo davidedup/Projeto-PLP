@@ -224,8 +224,8 @@ void cadastrarUsuario() {
         cout << "Usuario cadastrado com sucesso!\n" << endl;
         menuUsuario();
     } else {
-        cout << "ERRO: Usuario já existe, tente outro!" << endl;
-        menuUsuario();
+       cout << "ERRO: Usuario já existe, tente outro!" << endl;
+       menuUsuario();
     }
 }
 
@@ -239,7 +239,7 @@ void logarUsuario(){
         cout << "Usuario encontrado!" << endl;
         cout << "Você esta logado(a)!" << endl;
         logadoAgora = usuariosCadastrados[cpf];
-        cout << "Bem-vindo " +  logadoAgora.nome << endl;
+        cout << "Bem-vindo(a) " +  logadoAgora.nome << endl;
         menuUsuarioLogado();
     } else {
         cout << "Usuario não encontrado!" << endl;
@@ -289,7 +289,7 @@ void alugarFilme(){
 
     Aluguel aluguel;
     cin >> aluguel.filmeIndex;
-    aluguel.data = getData();
+    aluguel.data = getData(); 
 
     Filme filme = filmesCadastrados[aluguel.filmeIndex];
 
