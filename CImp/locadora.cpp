@@ -29,9 +29,9 @@ struct Usuario {
 };
 
 void apresentacao();
-
+void deixarSugestao();
 void adcFilmeseUsuarios();
-
+void listarRecomendacoes();
 void cadastrarFilme();
 void editarFilme();
 void listarFilmesAlugados();
@@ -53,6 +53,7 @@ void limparTela();
 vector<Filme> filmesCadastrados;
 map<string,Usuario> usuariosCadastrados;
 Usuario logadoAgora;
+vector<string> sugestoes;
 
 
 int main(){
@@ -185,6 +186,7 @@ void menuUsuario() {
     }
 }
 
+void setBusinessName();
 
 void opcoesGerente() {
         int opcao;
@@ -192,7 +194,8 @@ void opcoesGerente() {
         cout<<"(1) CADASTRAR FILME NO SISTEMA"<<endl;
         cout<<"(2) EDITAR FILME DO SISTEMA"<<endl;
         cout<<"(3) LISTAR FILMES ALUGADOS"<<endl;
-        cout<<"(4) VOLTAR PARA O MENU PRINCIPAL"<<endl;
+        cout<<"(4) LISTAR SUGESTÕES DOS USUÁRIOS"<<endl;
+        cout<<"(5) VOLTAR PARA O MENU PRINCIPAL"<<endl;
 
         cin>>opcao;
 
@@ -202,7 +205,11 @@ void opcoesGerente() {
             editarFilme();
         } else if(opcao == 3) {
             listarFilmesAlugados();
-        } else if(opcao == 4) {
+        } else if(opcao == 4){
+            listarRecomendacoes();
+            opcoesGerente();
+
+        }else if(opcao == 5) {
             apresentacao();
         } else {
              cout<<"Opcao invalida"<<endl;
@@ -210,6 +217,12 @@ void opcoesGerente() {
         }
 }
 
+void listarRecomendacoes() {
+    for(int i = 0; i < sugestoes.size(); i++) {
+        cout<<"- " + sugestoes[i]<<endl;
+    }
+
+}
 
 void cadastrarUsuario() {
     Usuario usuario;
@@ -265,7 +278,8 @@ void menuUsuarioLogado(){
     cout << "(2) REALIZAR RESERVA" << endl;
     cout << "(3) LISTAR FILMES DISPONIVEIS" << endl;
     cout << "(4) LISTAR MEUS ALUGUEIS" << endl;
-    cout << "(5) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
+    cout << "(5) DEIXAR UMA SUGESTÃO"<<endl;
+    cout << "(6) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
 
     cin >> opcao;
 
@@ -278,12 +292,47 @@ void menuUsuarioLogado(){
     } else if (opcao == 4) {
         listarAlugados();
     } else if (opcao == 5) {
-        //ver como faz isso: logadoAgora = NULL; 
-        apresentacao();    
+        deixarSugestao();
+
+    } else if(opcao == 6) {
+     //ver como faz isso: logadoAgora = NULL;
+        apresentacao();
     } else {
         cout << "DIGITE UMA OPÇÃO VALIDA";
         menuUsuarioLogado();
     }
+}
+
+
+
+void deixarSugestao() {
+    string comentario = "";
+
+    cout<<"Escreva abaixo sua sugestão:"<<endl;
+
+    getline(cin, comentario);
+
+    sugestoes.push_back(comentario);
+
+    cout<<"Obrigado por sua sugestão! Ela será avaliada pelos gerentes!"<<endl;
+
+    int opcao;
+    cout<<"Deseja deixar outra sugestão?"<<endl;
+    cout<<"(1) SIM"<<endl;
+    cout<<"(2) NÃO"<<endl;
+
+    cin>>opcao;
+
+    if(opcao == 1) {
+        deixarSugestao();
+    } else if(opcao == 2) {
+        menuUsuarioLogado();
+    } else {
+        limparTela();
+        cout<<"OPÇÃO INVÁLIDA"<<endl;
+        menuUsuarioLogado();
+    }
+
 }
 
 void alugarFilme(){
@@ -291,11 +340,11 @@ void alugarFilme(){
 
     Aluguel aluguel;
     cin >> aluguel.filmeIndex;
-    aluguel.data = getData(); 
+    aluguel.data = getData();
 
     Filme filme = filmesCadastrados[aluguel.filmeIndex];
-    
-    if(aluguel.filmeIndex < filmesCadastrados.size()){ 
+
+    if(aluguel.filmeIndex < filmesCadastrados.size()){
         if(filme.quantidadeDisponivel > 0){
             filmesCadastrados[aluguel.filmeIndex].quantidadeDisponivel--;
             logadoAgora.filmesAlugados.push_back(aluguel);
