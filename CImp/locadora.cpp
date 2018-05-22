@@ -11,6 +11,7 @@ using std::map;
 using namespace std;
 
 struct Filme {
+    int id;
     string nome;
     int ano;
     string genero;
@@ -20,7 +21,7 @@ struct Filme {
 };
 
 struct Aluguel{
-    int filmeIndex;
+    int filmeId;
     int data;
 };
 
@@ -41,6 +42,8 @@ void imprimeFilmesDisponiveis();
 void descreverFilme();
 void alugarFilme();
 int getData();
+void devolverFilme();
+void listarAlugadosDevolver();
 
 void cadastrarUsuario();
 void logarUsuario();
@@ -263,14 +266,29 @@ void logarUsuario(){
 }
 
 void listarAlugados(){
-    if(logadoAgora.filmesAlugados.size() > 0){
+    if (logadoAgora.filmesAlugados.size() > 0){
+        cout << "Seus filmes alugados são: " << endl;
         for(int i = 0; i < logadoAgora.filmesAlugados.size(); i++){
-            int filmeIndex = logadoAgora.filmesAlugados[i].filmeIndex;
-            cout << i+1  << " " << filmesCadastrados[filmeIndex].nome << endl;
+            int filmeIndex = logadoAgora.filmesAlugados[i].filmeId;
+            cout << i  << " " << filmesCadastrados[filmeIndex].nome << endl;
             // TODO:  colocar para imprimir data de devolução
         }
+    } else {
+        cout << "Você não tem nenhum filme alugado" << endl;
     }
     menuUsuarioLogado();
+}
+
+void listarAlugadosDevolver(){
+    if(logadoAgora.filmesAlugados.size() > 0){
+        for(int i = 0; i < logadoAgora.filmesAlugados.size(); i++){
+            int filmeIndex = logadoAgora.filmesAlugados[i].filmeId;
+            cout << i  << " " << filmesCadastrados[filmeIndex].nome << endl;
+            // TODO:  colocar para imprimir data de devolução
+        }
+    } else {
+        cout << "Você não tem nenhum filme alugado" << endl;
+    }
 }
 
 void menuUsuarioLogado(){
@@ -281,7 +299,8 @@ void menuUsuarioLogado(){
     cout << "(3) LISTAR FILMES DISPONIVEIS" << endl;
     cout << "(4) LISTAR MEUS ALUGUEIS" << endl;
     cout << "(5) DEIXAR UMA SUGESTÃO"<<endl;
-    cout << "(6) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
+    cout << "(6) DEVOLVER FILME"<<endl;
+    cout << "(7) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
 
     cin >> opcao;
 
@@ -296,7 +315,9 @@ void menuUsuarioLogado(){
     } else if (opcao == 5) {
         deixarSugestao();
     } else if(opcao == 6) {
-     //ver como faz isso: logadoAgora = NULL;
+        devolverFilme();
+    } else if (opcao == 7) {
+        //logadoAgora = NULL;
         apresentacao();
     } else {
         cout << "DIGITE UMA OPÇÃO VALIDA";
@@ -304,6 +325,29 @@ void menuUsuarioLogado(){
     }
 }
 
+
+
+void devolverFilme(){
+    int filmeIndexDevolver;
+
+    cout << "Seus filmes alugados agora são: " << endl;
+    listarAlugadosDevolver();
+    
+    cout << "Digite o numero do filme que deseja devolver: " << endl;
+    cin >> filmeIndexDevolver;
+
+    if(filmeIndexDevolver < logadoAgora.filmesAlugados.size()){
+         int filmeId =  logadoAgora.filmesAlugados[filmeIndexDevolver].filmeId;
+         filmesCadastrados[filmeId].quantidadeDisponivel++;
+         logadoAgora.filmesAlugados.erase(logadoAgora.filmesAlugados.begin() + filmeIndexDevolver);
+         cout << "Filme devolvido com sucesso" << endl;
+    } else {
+        cout << "ERRO: Digite um filme valido";
+        devolverFilme();
+    }
+
+    menuUsuarioLogado();
+}
 
 
 void deixarSugestao() {
@@ -340,14 +384,14 @@ void alugarFilme(){
     cout << "Digite o número do filme que você deseja alugar:" << endl;
 
     Aluguel aluguel;
-    cin >> aluguel.filmeIndex;
+    cin >> aluguel.filmeId;
     aluguel.data = getData();
 
-    Filme filme = filmesCadastrados[aluguel.filmeIndex];
+    Filme filme = filmesCadastrados[aluguel.filmeId];
 
-    if(aluguel.filmeIndex < filmesCadastrados.size()){
+    if(aluguel.filmeId < filmesCadastrados.size()){
         if(filme.quantidadeDisponivel > 0){
-            filmesCadastrados[aluguel.filmeIndex].quantidadeDisponivel--;
+            filmesCadastrados[aluguel.filmeId].quantidadeDisponivel--;
             logadoAgora.filmesAlugados.push_back(aluguel);
             cout << "Filme: " + filme.nome + " foi alugado!" << endl;
             menuUsuarioLogado();
@@ -377,6 +421,7 @@ void cadastrarFilme(){
         cout<<"Insira a quantidade de copias: ";
         cin>>filme.quantidade;
 
+        filme.id = filmesCadastrados.size();
         filmesCadastrados.push_back(filme);
 
         int op;
