@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <vector>
 #include <map>
+#include <string>
+
 using std::vector;
 using std::string;
 using std::map;
@@ -293,7 +295,6 @@ void menuUsuarioLogado(){
         listarAlugados();
     } else if (opcao == 5) {
         deixarSugestao();
-
     } else if(opcao == 6) {
      //ver como faz isso: logadoAgora = NULL;
         apresentacao();
@@ -307,14 +308,14 @@ void menuUsuarioLogado(){
 
 void deixarSugestao() {
     string comentario = "";
-
-    cout<<"Escreva abaixo sua sugestão:"<<endl;
-
+    cout << "Escreva abaixo sua sugestão: " << endl;
+   
+    cin.ignore();
     getline(cin, comentario);
 
     sugestoes.push_back(comentario);
 
-    cout<<"Obrigado por sua sugestão! Ela será avaliada pelos gerentes!"<<endl;
+    cout<< "Obrigado por sua sugestão! Ela será avaliada pelos gerentes!" <<endl;
 
     int opcao;
     cout<<"Deseja deixar outra sugestão?"<<endl;
