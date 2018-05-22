@@ -18,6 +18,7 @@ struct Filme {
     string descricao;
     int quantidade;
     int quantidadeDisponivel;
+    int quantidadeReservado;
 };
 
 struct Aluguel{
@@ -29,6 +30,7 @@ struct Usuario {
     string cpf;
     string nome;
     vector<Aluguel> filmesAlugados;
+    vector<int> filmesReservados;
 };
 
 void apresentacao();
@@ -44,6 +46,7 @@ void alugarFilme();
 int getData();
 void devolverFilme();
 void listarAlugadosDevolver();
+void realizarReserva();
 
 void cadastrarUsuario();
 void logarUsuario();
@@ -307,7 +310,7 @@ void menuUsuarioLogado(){
     if (opcao == 1){
         alugarFilme();
     } else if(opcao == 2) {
-        // Realizar reserva
+        realizarReserva();
     } else if (opcao == 3) {
         imprimeFilmesDisponiveis();
     } else if (opcao == 4) {
@@ -325,7 +328,22 @@ void menuUsuarioLogado(){
     }
 }
 
+void realizarReserva() {
+    int filmeId;
 
+    cout << "Digite o número do filme que deseja reservar: " << endl;
+    cin >> filmeId;
+
+    if (filmesCadastrados[filmeId].quantidadeDisponivel > 0) {
+        filmesCadastrados[filmeId].quantidadeReservado--;
+        logadoAgora.filmesReservados.push_back(filmeId);   
+        cout << "Filme reservado com sucesso!" << endl;
+    } else {
+        cout << "Não é possível reservar o filmes, pois não há quantidade suficiente.";       
+    }
+
+    // CONTINUAR
+}
 
 void devolverFilme(){
     int filmeIndexDevolver;
