@@ -228,6 +228,15 @@ void opcoesGerente() {
 
 void deletarFilme() {
     int indexFilme;
+
+    for(int i = 0; i < filmesCadastrados.size(); i++) {
+        if(filmesCadastrados[i].nome != "") {
+            cout<<i;
+            cout<<"- " + filmesCadastrados[i].nome<<endl;
+        }
+
+    }
+
     cout << "Insira o número do filme que deseja deletar do sistema:" << endl;
     cin >> indexFilme;
 
@@ -352,10 +361,10 @@ void realizarReserva() {
     if (filmesCadastrados[filmeId].quantidadeDisponivel > 0) {
         filmesCadastrados[filmeId].quantidadeReservado++;
         filmesCadastrados[filmeId].quantidadeDisponivel--;
-        logadoAgora.filmesReservados.push_back(filmeId);   
+        logadoAgora.filmesReservados.push_back(filmeId);
         cout << "Filme reservado com sucesso!" << endl;
     } else {
-        cout << "Não é possível reservar o filmes, pois não há quantidade suficiente.";       
+        cout << "Não é possível reservar o filmes, pois não há quantidade suficiente.";
     }
 
     menuUsuarioLogado();
@@ -366,7 +375,7 @@ void devolverFilme(){
 
     cout << "Seus filmes alugados agora são: " << endl;
     listarAlugadosDevolver();
-    
+
     cout << "Digite o numero do filme que deseja devolver: " << endl;
     cin >> filmeIndexDevolver;
 
@@ -394,7 +403,7 @@ void devolverFilme(){
 void deixarSugestao() {
     string comentario = "";
     cout << "Escreva abaixo sua sugestão: " << endl;
-   
+
     cin.ignore();
     getline(cin, comentario);
 
