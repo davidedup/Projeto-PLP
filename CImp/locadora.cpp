@@ -47,6 +47,7 @@ int getData();
 void devolverFilme();
 void listarAlugadosDevolver();
 void realizarReserva();
+void alugarFilmeReservado(int filmeId);
 
 void cadastrarUsuario();
 void logarUsuario();
@@ -335,14 +336,15 @@ void realizarReserva() {
     cin >> filmeId;
 
     if (filmesCadastrados[filmeId].quantidadeDisponivel > 0) {
-        filmesCadastrados[filmeId].quantidadeReservado--;
+        filmesCadastrados[filmeId].quantidadeReservado++;
+        filmesCadastrados[filmeId].quantidadeDisponivel--;
         logadoAgora.filmesReservados.push_back(filmeId);   
         cout << "Filme reservado com sucesso!" << endl;
     } else {
         cout << "Não é possível reservar o filmes, pois não há quantidade suficiente.";       
     }
 
-    // CONTINUAR
+    menuUsuarioLogado();
 }
 
 void devolverFilme(){
@@ -401,28 +403,53 @@ void deixarSugestao() {
 void alugarFilme(){
     cout << "Digite o número do filme que você deseja alugar:" << endl;
 
+    int filmeId;
     Aluguel aluguel;
-    cin >> aluguel.filmeId;
+    cin >> filmeId;
+    aluguel.filmeId = filmeId;
     aluguel.data = getData();
 
     Filme filme = filmesCadastrados[aluguel.filmeId];
 
-    if(aluguel.filmeId < filmesCadastrados.size()){
-        if(filme.quantidadeDisponivel > 0){
-            filmesCadastrados[aluguel.filmeId].quantidadeDisponivel--;
-            logadoAgora.filmesAlugados.push_back(aluguel);
-            cout << "Filme: " + filme.nome + " foi alugado!" << endl;
-            menuUsuarioLogado();
-        }else{
-            cout << "Filme indisponível para alugar" << endl; ;
-            alugarFilme();
+    cout << "Esse filme estava reservado por você?" << endl;
+    cout<<"(1) SIM"<<endl;
+    cout<<"(2) NÃO"<<endl;
+
+    int opcaoReservado;
+    cin >> opcaoReservado;
+
+    if(filmeId < filmesCadastrados.size()){
+        if (opcaoReservado == 1) {
+            alugarFilmeReservado(filmeId);
         }
+        realizarAluguel(filme, filmeId, aluguel);
     }else{
         cout << "Digite um filme válido" << endl;
         alugarFilme();
     }
 }
 
+void alugarFilmeReservado(int filmeId) {
+    for (int i = 0; i < logadoAgora.filmesReservados.size(); i++) {
+        if (logadoAgora.filmesReservados[i] == filmeId) {
+            logadoAgora.filmesReservados.erase(logadoAgora.filmesReservados.begin() + i);
+        }
+    }
+
+    filmesCadastrados[filmeId].quantidadeReservado--;
+}
+
+void realizarAluguel(Filme filme, int filmeId, Aluguel aluguel) {
+    if(filme.quantidadeDisponivel > 0){
+        filmesCadastrados[filmeId].quantidadeDisponivel--;
+        logadoAgora.filmesAlugados.push_back(aluguel);
+        cout << "Filme: " + filme.nome + " foi alugado!" << endl;
+        menuUsuarioLogado();
+    }else{
+        cout << "Filme indisponível para alugar" << endl; ;
+        alugarFilme();
+    }
+}
 
 void cadastrarFilme(){
     Filme filme;
@@ -508,7 +535,8 @@ void listarFilmesAlugados() {
     int filmesAlugados = 0;
 
     for(int i = 0; i < filmesCadastrados.size(); i++){
-        if(filmesCadastrados[i].quantidade > filmesCadastrados[i].quantidadeDisponivel){
+        Filme filme = filmesCadastrados[i];
+        if (filme.quantidade > filme.quantidadeDisponivel + filme.quantidadeReservado){
             filmesAlugados += 1;
             cout << i << "-" << filmesCadastrados[i].nome << " - " << filmesCadastrados[i].ano << " - " << filmesCadastrados[i].genero << endl;
         }
