@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <ctime>
 
 using std::vector;
 using std::string;
@@ -23,7 +24,7 @@ struct Filme {
 
 struct Aluguel{
     int filmeId;
-    int data;
+    time_t data;
 };
 
 struct Usuario {
@@ -43,11 +44,13 @@ void listarFilmesAlugados();
 void imprimeFilmesDisponiveis();
 void descreverFilme();
 void alugarFilme();
-int getData();
+time_t getData();
 void devolverFilme();
 void listarAlugadosDevolver();
 void realizarReserva();
 void alugarFilmeReservado(int filmeId);
+void realizarAluguel(Filme filme, int filmeId, Aluguel aluguel);
+void deletarFilme();
 
 void cadastrarUsuario();
 void logarUsuario();
@@ -58,8 +61,8 @@ void opcoesGerente();
 void menuGerente();
 void limparTela();
 
-
-vector<Filme> filmesCadastrados;
+int contadorFilmes = 0;
+map<int, Filme> filmesCadastrados;
 map<string,Usuario> usuariosCadastrados;
 Usuario logadoAgora;
 vector<string> sugestoes;
@@ -74,18 +77,11 @@ int main(){
     return 0;
 }
 
-//tava dando erro ai eu comentei :s
-// int getData(){
- //    time_t now;
- //    struct tm nowLocal;
- //    now=time(NULL);
- //    nowLocal=*localtime(&now);
- //    return nowLocal.tm_mday;
- //}
-int getData(){
-    return 0;
-}
 
+time_t getData(){
+    time_t dataAtual = time(0);
+    return dataAtual;
+}
 
 void adcFilmeseUsuarios(){
 
@@ -105,8 +101,10 @@ void adcFilmeseUsuarios(){
     filme2.ano = 2018;
     filme2.genero = "ação";
 
-    filmesCadastrados.push_back(filme1);
-    filmesCadastrados.push_back(filme2);
+    filmesCadastrados[contadorFilmes] = filme1;
+    contadorFilmes++;
+    filmesCadastrados[contadorFilmes] = filme2;
+    contadorFilmes++;
 
     Usuario david;
     david.nome = "David";
@@ -204,7 +202,8 @@ void opcoesGerente() {
         cout<<"(2) EDITAR FILME DO SISTEMA"<<endl;
         cout<<"(3) LISTAR FILMES ALUGADOS"<<endl;
         cout<<"(4) LISTAR SUGESTÕES DOS USUÁRIOS"<<endl;
-        cout<<"(5) VOLTAR PARA O MENU PRINCIPAL"<<endl;
+        cout<<"(5) DELETAR FILME DO SISTEMA"<<endl;
+        cout<<"(6) VOLTAR PARA O MENU PRINCIPAL"<<endl;
 
         cin>>opcao;
 
@@ -217,13 +216,29 @@ void opcoesGerente() {
         } else if(opcao == 4){
             listarRecomendacoes();
             opcoesGerente();
-
-        }else if(opcao == 5) {
+        } else if (opcao == 5) {
+            deletarFilme();
+        } else if(opcao == 6) {
             apresentacao();
         } else {
              cout<<"Opcao invalida"<<endl;
              opcoesGerente();
         }
+}
+
+void deletarFilme() {
+    int indexFilme;
+    cout << "Insira o número do filme que deseja deletar do sistema:" << endl;
+    cin >> indexFilme;
+
+    if (filmesCadastrados.find(indexFilme) == filmesCadastrados.end()) {
+        cout << "Filme não existente no sistema." << endl;
+    } else {
+        filmesCadastrados.erase(indexFilme);
+        cout << "Filme deletado com sucesso." << endl;
+    }
+
+    opcoesGerente();
 }
 
 void listarRecomendacoes() {
@@ -321,7 +336,6 @@ void menuUsuarioLogado(){
     } else if(opcao == 6) {
         devolverFilme();
     } else if (opcao == 7) {
-        //logadoAgora = NULL;
         apresentacao();
     } else {
         cout << "DIGITE UMA OPÇÃO VALIDA";
@@ -357,10 +371,17 @@ void devolverFilme(){
     cin >> filmeIndexDevolver;
 
     if(filmeIndexDevolver < logadoAgora.filmesAlugados.size()){
-         int filmeId =  logadoAgora.filmesAlugados[filmeIndexDevolver].filmeId;
-         filmesCadastrados[filmeId].quantidadeDisponivel++;
-         logadoAgora.filmesAlugados.erase(logadoAgora.filmesAlugados.begin() + filmeIndexDevolver);
-         cout << "Filme devolvido com sucesso" << endl;
+        time_t data_entrega = time(0);
+        int filmeId =  logadoAgora.filmesAlugados[filmeIndexDevolver].filmeId;
+        filmesCadastrados[filmeId].quantidadeDisponivel++;
+
+        int doisDiasEmSegundos = 172800;
+        if (logadoAgora.filmesAlugados[filmeIndexDevolver].data+doisDiasEmSegundos < data_entrega) {
+            cout << "Você precisará pagar uma multa pois atrasou a devolução do filme (limite de 2 dias)." << endl;
+        }
+
+        cout << "Filme devolvido com sucesso" << endl;
+        logadoAgora.filmesAlugados.erase(logadoAgora.filmesAlugados.begin() + filmeIndexDevolver);
     } else {
         cout << "ERRO: Digite um filme valido";
         devolverFilme();
@@ -467,7 +488,7 @@ void cadastrarFilme(){
         cin>>filme.quantidade;
 
         filme.id = filmesCadastrados.size();
-        filmesCadastrados.push_back(filme);
+        filmesCadastrados[contadorFilmes] = filme;
 
         int op;
         cout<<"Deseja cadastrar outro filme?"<<endl;
