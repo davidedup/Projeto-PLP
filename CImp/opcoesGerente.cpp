@@ -22,17 +22,23 @@ void imprimeFilmesDoSistema()
 
 Filme pegaInfoFilme()
 {
+    int qtd;
     Filme filme;
     cout << "Insira o nome do filme: ";
-    cin >> filme.nome;
+    cin.ignore();
+    getline(cin, filme.nome);
     cout << "Insira o ano do filme: ";
     cin >> filme.ano;
     cout << "Insira o genero do filme: ";
-    cin >> filme.genero;
+    cin.ignore();
+    getline(cin, filme.genero);
     cout << "Insira uma descriçao para o filme: ";
-    cin >> filme.descricao;
+    cin.ignore();
+    getline(cin, filme.descricao);
     cout << "Insira a quantidade de copias: ";
-    cin >> filme.quantidade;
+    cin >> qtd;
+    filme.quantidade = qtd;
+    filme.quantidadeDisponivel = qtd;
     filme.id = contadorFilmes;
 
     return filme;

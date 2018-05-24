@@ -70,7 +70,8 @@ void cadastrarUsuario()
     Usuario usuario;
 
     cout << "Insira o seu nome de usuario: ";
-    cin >> usuario.nome;
+    cin.ignore();
+    getline(cin, usuario.nome);
     cout << "Insira o seu cpf: ";
     cin >> usuario.cpf;
 
