@@ -63,7 +63,7 @@ void cadastrarFilme(){
 
 int imprimeOpcoesDeEdicao(int opcaoFilme) {
     int opcao;
-    cout<<"====> VOCÊ ESTÁ EDITANDO O FILME " +  filmesCadastrados[opcaoFilme].nome + " <==="<<endl;
+    cout<<"====> VOCÊ ESTÁ EDITANDO O FILME " +  filmesCadastrados[opcaoFilme].nome + " <===="<<endl;
     cout<<"-> Qual atributo você deseja editar?"<<endl;
     cout<<"(1) NOME"<<endl;
     cout<<"(2) ANO DE LANÇAMENTO"<<endl;
@@ -78,7 +78,7 @@ int imprimeOpcoesDeEdicao(int opcaoFilme) {
 
 void editarNomeFilme(int opcaoFilme) {
     string novoNome;
-    cout<<"Indique o novo nome para o filme " +  filmesCadastrados[opcaoFilme].nome + " ";
+    cout<<"Indique o novo nome para o filme '" +  filmesCadastrados[opcaoFilme].nome + "': ";
     cin>>novoNome;
     filmesCadastrados[opcaoFilme].nome = novoNome;
     cout<<"Filme editado com sucesso!"<<endl;
@@ -87,7 +87,7 @@ void editarNomeFilme(int opcaoFilme) {
 
 void editarAnoDeLancFilme(int opcaoFilme) {
     int novoAno;
-    cout<<"Indique o novo ano de lançamento para o filme " +  filmesCadastrados[opcaoFilme].nome + " ";
+    cout<<"Indique o novo ano de lançamento para o filme '" +  filmesCadastrados[opcaoFilme].nome + "': ";
     cin>>novoAno;
     filmesCadastrados[opcaoFilme].ano = novoAno;
     cout<<"Filme editado com sucesso!"<<endl;
@@ -96,7 +96,7 @@ void editarAnoDeLancFilme(int opcaoFilme) {
 
 void editarDescricaoFilme(int opcaoFilme) {
     string novaDescricao;
-    cout<<"Indique uma nova descrição para o filme " +  filmesCadastrados[opcaoFilme].nome + " ";
+    cout<<"Indique uma nova descrição para o filme '" +  filmesCadastrados[opcaoFilme].nome + "': ";
     cin>>novaDescricao;
     filmesCadastrados[opcaoFilme].descricao = novaDescricao;
     cout<<"Filme editado com sucesso!"<<endl;
@@ -105,7 +105,7 @@ void editarDescricaoFilme(int opcaoFilme) {
 
 void editarQuantFilme(int opcaoFilme) {
     int novaQtd;
-    cout<<"Indique a nova quantidade para o filme " +  filmesCadastrados[opcaoFilme].nome + " ";
+    cout<<"Indique a nova quantidade para o filme '" +  filmesCadastrados[opcaoFilme].nome + "': ";
     cin>>novaQtd;
     filmesCadastrados[opcaoFilme].quantidade = novaQtd;
     cout<<"Filme editado com sucesso!"<<endl;

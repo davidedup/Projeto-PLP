@@ -12,7 +12,7 @@ void listarAlugados(){
             cout << "Seus filmes alugados são: " << endl;
             for(int i = 0; i < logadoAgora.filmesAlugados.size(); i++){
                 int filmeId = logadoAgora.filmesAlugados[i].filmeId;
-                cout << i  << " " << filmesCadastrados[filmeId].nome << endl;
+                cout << i  << " - " << filmesCadastrados[filmeId].nome << endl;
             }
         } else {
             cout << "Você não tem nenhum filme alugado" << endl;
@@ -58,7 +58,7 @@ void cadastrarUsuario() {
         usuariosCadastrados[usuario.cpf] = usuario;
         cout << "Usuario cadastrado com sucesso!\n" << endl;
     } else {
-       cout << "ERRO: Usuario já existe, tente outro!" << endl;
+        cout << "ERRO: Usuario já existe, tente outro!" << endl;
     }
 }
 
@@ -70,13 +70,11 @@ void realizarAluguel(Filme filme, int filmeId, Aluguel aluguel) {
             filmesCadastrados[filmeId].quantidadeDisponivel--;
             logadoAgora.filmesAlugados.push_back(aluguel);
             cout << "Filme: " + filme.nome + " foi alugado!" << endl;
-            cout << "(1) VOLTAR PARA O MENU" << endl;
-            cin >> opcao;
         }else{
             cout << "Filme indisponível para alugar" << endl; ;
-            cout << "(1) VOLTAR PARA O MENU" << endl;
-            cin >> opcao;
         }
+        cout << "(1) VOLTAR PARA O MENU" << endl;
+        cin >> opcao;
     }
 }
 
@@ -224,7 +222,7 @@ void listarAlugadosDevolver(){
     cout << "Seus filmes alugados agora são: " << endl;
     for(int i = 0; i < logadoAgora.filmesAlugados.size(); i++){
         int filmeId = logadoAgora.filmesAlugados[i].filmeId;
-        cout << i  << " " << filmesCadastrados[filmeId].nome << endl;
+        cout << i  << " - " << filmesCadastrados[filmeId].nome << endl;
     }
 }
 
