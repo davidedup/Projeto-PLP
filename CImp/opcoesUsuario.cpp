@@ -23,6 +23,25 @@ void listarAlugados(){
     }
 }
 
+void listarReservados(){
+    int opcao = 0;
+    while (opcao != 1) {
+        limparTela();
+        if (logadoAgora.filmesReservados.size() > 0){
+            cout << "Seus filmes reservados são: " << endl;
+            for(int i = 0; i < logadoAgora.filmesReservados.size(); i++){
+                int filmeId = logadoAgora.filmesReservados[i];
+                cout << i  << " - " << filmesCadastrados[filmeId].nome << endl;
+            }
+        } else {
+            cout << "Você não tem nenhum filme reservado" << endl;
+        }
+
+        cout << "(1) VOLTAR AO MENU" << endl;
+        cin >> opcao;
+    }
+}
+
 
 void alugarFilmeReservado(int filmeId) {
     for (int i = 0; i < logadoAgora.filmesReservados.size(); i++) {
@@ -115,18 +134,26 @@ void alugarFilme(){
 
 void realizarReserva() {
     limparTela();
-    int filmeId;
 
-    cout << "Digite o número do filme que deseja reservar: " << endl;
-    cin >> filmeId;
+    int opcao = 0;
+    while(opcao != 2){
+        int filmeId;
 
-    if (filmesCadastrados[filmeId].quantidadeDisponivel > 0) {
-        filmesCadastrados[filmeId].quantidadeReservado++;
-        filmesCadastrados[filmeId].quantidadeDisponivel--;
-        logadoAgora.filmesReservados.push_back(filmeId);
-        cout << "Filme reservado com sucesso!" << endl;
-    } else {
-        cout << "Não é possível reservar o filmes, pois não há quantidade suficiente.";
+        cout << "Digite o número do filme que deseja reservar: " << endl;
+        cin >> filmeId;
+
+        if (filmesCadastrados[filmeId].quantidadeDisponivel > 0) {
+            filmesCadastrados[filmeId].quantidadeReservado++;
+            filmesCadastrados[filmeId].quantidadeDisponivel--;
+            logadoAgora.filmesReservados.push_back(filmeId);
+            cout << "Filme reservado com sucesso!" << endl;
+        } else {
+            cout << "Não é possível reservar o filme, pois não há quantidade suficiente.";
+        }
+
+        cout << "(1) REALIZAR OUTRA RESERVA" << endl;
+        cout << "(2) VOLTAR PARA O MENU" << endl;
+        cin >> opcao;
     }
 }
 
@@ -141,7 +168,7 @@ void descreverFilme(){
 
         if(opcao == 1) {
             int filmeIndex;
-            cout<<"Qual o número do filme deseja saber mais sobre?"<<endl;
+            cout<<"Qual o número do filme deseja saber mais sobre?";
             cin >> filmeIndex;
 
             if(filmeIndex < contadorFilmes){
@@ -161,7 +188,7 @@ void imprimeFilmesDisponiveis(){
         if(filmesCadastrados.find(i) != filmesCadastrados.end() and
          filmesCadastrados[i].quantidadeDisponivel > 0){
             cout << i << " - " << filmesCadastrados[i].nome<<endl;
-            cout << "Quantidade de copias disponiveis: " << filmesCadastrados[i].quantidadeDisponivel << endl;
+            cout << "-> Quantidade de copias disponiveis: " << filmesCadastrados[i].quantidadeDisponivel << endl;
         }
     }
 
@@ -263,9 +290,10 @@ void menuUsuarioLogado(){
         cout << "(2) REALIZAR RESERVA" << endl;
         cout << "(3) LISTAR FILMES DISPONIVEIS" << endl;
         cout << "(4) LISTAR MEUS ALUGUEIS" << endl;
-        cout << "(5) DEIXAR UMA SUGESTÃO"<<endl;
-        cout << "(6) DEVOLVER FILME"<<endl;
-        cout << "(7) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
+        cout << "(5) LISTAR MEUS RESERVADOS" << endl;
+        cout << "(6) DEIXAR UMA SUGESTÃO"<<endl;
+        cout << "(7) DEVOLVER FILME"<<endl;
+        cout << "(8) SAIR E VOLTAR AO MENU PRINCIPAL" << endl;
 
         cin >> opcao;
 
@@ -278,10 +306,12 @@ void menuUsuarioLogado(){
         } else if (opcao == 4) {
             listarAlugados();
         } else if (opcao == 5) {
+            listarReservados();
+        } else if (opcao == 6) {
             deixarSugestao();
-        } else if(opcao == 6) {
+        } else if(opcao == 7) {
             devolverFilme();
-        } else if (opcao == 7) {
+        } else if (opcao == 8) {
             break;
         } else {
             cout << "DIGITE UMA OPÇÃO VALIDA";
