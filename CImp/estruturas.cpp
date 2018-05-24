@@ -5,11 +5,12 @@
 #include <string>
 #include <ctime>
 
-using std::vector;
 using std::string;
+using std::vector;
 using namespace std;
 
-struct Filme {
+struct Filme
+{
     int id;
     string nome;
     int ano;
@@ -20,12 +21,14 @@ struct Filme {
     int quantidadeReservado;
 };
 
-struct Aluguel{
+struct Aluguel
+{
     int filmeId;
     time_t data;
 };
 
-struct Usuario {
+struct Usuario
+{
     string cpf;
     string nome;
     vector<Aluguel> filmesAlugados;

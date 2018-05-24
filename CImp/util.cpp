@@ -4,11 +4,13 @@
 #include <string>
 #include <ctime>
 
-void limparTela(){
-    cout << string( 100, '\n' );
+void limparTela()
+{
+    cout << string(100, '\n');
 }
 
-time_t pegarData(){
+time_t pegarData()
+{
     time_t dataAtual = time(0);
     return dataAtual;
 }

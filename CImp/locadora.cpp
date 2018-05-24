@@ -11,43 +11,50 @@
 #include "opcoesGerente.cpp"
 #include "opcoesUsuario.cpp"
 
+void apresentacao()
+{
 
-void apresentacao() {
-
-    while (true) {
+    while (true)
+    {
         limparTela();
-        cout<<"██████╗ ███████╗███╗   ███╗    ██╗   ██╗██╗███╗   ██╗██████╗  ██████╗ "<<endl;
-        cout<<"██╔══██╗██╔════╝████╗ ████║    ██║   ██║██║████╗  ██║██╔══██╗██╔═══██╗"<<endl;
-        cout<<"██████╔╝█████╗  ██╔████╔██║    ██║   ██║██║██╔██╗ ██║██║  ██║██║   ██║"<<endl;
-        cout<<"██╔══██╗██╔══╝  ██║╚██╔╝██║    ╚██╗ ██╔╝██║██║╚██╗██║██║  ██║██║   ██║"<<endl;
-        cout<<"██████╔╝███████╗██║ ╚═╝ ██║     ╚████╔╝ ██║██║ ╚████║██████╔╝╚██████╔╝"<<endl;
-        cout<<"╚═════╝ ╚══════╝╚═╝     ╚═╝      ╚═══╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ "<<endl;
+        cout << "██████╗ ███████╗███╗   ███╗    ██╗   ██╗██╗███╗   ██╗██████╗  ██████╗ " << endl;
+        cout << "██╔══██╗██╔════╝████╗ ████║    ██║   ██║██║████╗  ██║██╔══██╗██╔═══██╗" << endl;
+        cout << "██████╔╝█████╗  ██╔████╔██║    ██║   ██║██║██╔██╗ ██║██║  ██║██║   ██║" << endl;
+        cout << "██╔══██╗██╔══╝  ██║╚██╔╝██║    ╚██╗ ██╔╝██║██║╚██╗██║██║  ██║██║   ██║" << endl;
+        cout << "██████╔╝███████╗██║ ╚═╝ ██║     ╚████╔╝ ██║██║ ╚████║██████╔╝╚██████╔╝" << endl;
+        cout << "╚═════╝ ╚══════╝╚═╝     ╚═╝      ╚═══╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ " << endl;
 
-        cout<<"À LOCADORA DE FILMES"<<endl;
-        cout<<"COMO VOCÊ DESEJA SEGUIR?"<<endl;
-        cout<<"(1) GERENTE"<<endl;
-        cout<<"(2) USUÁRIO"<<endl;
-        cout<<"(3) SAIR"<<endl;
+        cout << "À LOCADORA DE FILMES" << endl;
+        cout << "COMO VOCÊ DESEJA SEGUIR?" << endl;
+        cout << "(1) GERENTE" << endl;
+        cout << "(2) USUÁRIO" << endl;
+        cout << "(3) SAIR" << endl;
 
         int opcao;
 
-        cin>>opcao;
+        cin >> opcao;
 
-        if(opcao == 3) {
+        if (opcao == 3)
+        {
             break;
         }
-        else if(opcao == 1) {
+        else if (opcao == 1)
+        {
             menuGerente();
-        } else if(opcao == 2){
+        }
+        else if (opcao == 2)
+        {
             menuUsuario();
-        } else {
-            cout<<"SELECIONE UMA OPÇAO VALIDA!"<<endl;
+        }
+        else
+        {
+            cout << "SELECIONE UMA OPÇAO VALIDA!" << endl;
         }
     }
 }
 
-
-void adcFilmeseUsuarios(){
+void adcFilmeseUsuarios()
+{
 
     Filme filme1;
     filme1.nome = "Frozen";
@@ -79,7 +86,6 @@ void adcFilmeseUsuarios(){
     mariana.cpf = "001";
 
     Usuario marcos;
-
     marcos.nome = "Marcos";
     marcos.cpf = "002";
 
@@ -88,8 +94,8 @@ void adcFilmeseUsuarios(){
     usuariosCadastrados[marcos.cpf] = marcos;
 }
 
-
-int main(){
+int main()
+{
 
     // METODO TESTE PARA POPULAR SISTEMA.
     adcFilmeseUsuarios();
