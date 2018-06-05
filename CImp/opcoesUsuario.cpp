@@ -46,7 +46,7 @@ void listarReservados()
         }
         else
         {
-            cout << "Você não tem nenhum filme alugado" << endl;
+            cout << "Você não tem nenhum filme reservado" << endl;
         }
 
         cout << "(1) VOLTAR AO MENU" << endl;
