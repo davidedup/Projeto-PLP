@@ -26,6 +26,7 @@ menuOpcao a b c = do
 menu :: Int -> [String] -> [String] -> [String] -> IO ()
 menu 1 a b c = listarFilmes b
 menu 2 a b c = listarFilmesDisponiveis b c
+menu 3 a b c = listarFilmesAlugados c 
 menu _ a b c = putStr ""
 
 listarFilmes:: [String] -> IO ()
@@ -33,6 +34,9 @@ listarFilmes a = do mapM_ print a
 
 listarFilmesDisponiveis:: [String] -> [String] -> IO ()
 listarFilmesDisponiveis a b = do mapM_ print (a \\ b)
+
+listarFilmesAlugados:: [String] -> IO ()
+listarFilmesAlugados a = do mapM_ print a
 
 menuPrint:: IO ()
 menuPrint = do
