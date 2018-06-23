@@ -21,7 +21,7 @@ main = do
 	
 
 toStringFilme :: Filme -> String  
-toStringFilme (Filme {indice = i, nome = n, genero = g, ano = a, descricao = d, disponivel = dis }) = show i ++ " - " ++ n ++ "- Disponivel: " ++ show dis    
+toStringFilme (Filme {indice = i, nome = n, genero = g, ano = a, descricao = d, disponivel = dis }) = show i ++ " - " ++ n ++ " - Disponivel: " ++ show dis    
     
 
 listarFilmes :: [Filme] -> String
@@ -29,7 +29,7 @@ listarFilmes [] = ""
 listarFilmes (x:xs) = toStringFilme x ++ ['\n'] ++ listarFilmes xs
 
 estaDisponivel :: Filme -> Bool
-estaDisponivel (Filme {indice = i, nome = n, genero = g, ano = a, descricao = d, disponivel = dis }) = if dis == True then True else False
+estaDisponivel (Filme {indice = i, nome = n, genero = g, ano = a, descricao = d, disponivel = dis }) = dis
 
 listarFilmesDisponiveis :: [Filme] -> String
 listarFilmesDisponiveis [] = ""
