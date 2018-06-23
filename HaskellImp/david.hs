@@ -28,6 +28,21 @@ listarFilmes :: [Filme] -> String
 listarFilmes [] = ""
 listarFilmes (x:xs) = toStringFilme x ++ ['\n'] ++ listarFilmes xs
 
+realizaAluguel :: IO()
+realizaAluguel = do 
+    putStrLn "Digite o codigo do filme que deseja alugar? "
+    codigo <- getLine
+    if (aluga (read codigo)) then putStrLn "Aluguel Realizado" else do {putStrLn "Não foi possivel achar o filme, digite um codigo valido!" ; realizaAluguel}
+    menuOpcao
+    
+-- adiciona no array de meusAlugueis e muda o atributo para false no array de filmes cadastrados
+-- pegar algo pelo indice :: '(!!) lista indice'
+-- Isso ainda nao ta funcionando !! babysteps
+aluga :: Int -> Bool
+aluga codigo | codigo > (length filmesCadastrados) = False 
+             | codigo <= 0 = False
+             | otherwise = False
+
 estaDisponivel :: Filme -> Bool
 estaDisponivel (Filme {indice = i, nome = n, genero = g, ano = a, descricao = d, disponivel = dis }) = dis
 
@@ -38,7 +53,8 @@ listarFilmesDisponiveis (x:xs) = if estaDisponivel x then toStringFilme x ++ ['\
 opcaoEscolhida :: Int -> IO()
 opcaoEscolhida opcao | opcao == 1 = do {putStrLn (listarFilmes filmesCadastrados) ; menuOpcao} 
                      | opcao == 2 = do {putStrLn (listarFilmesDisponiveis filmesCadastrados) ; menuOpcao}
-                     | opcao == 3 = do  putStrLn "TODO: listarAlugados"
+                     | opcao == 3 = do {putStrLn (listarFilmes meusAlugueis) ; menuOpcao}
+                     | opcao == 4 = do {realizaAluguel ; menuOpcao}    
                      | otherwise =  do {putStrLn "Opcao invalida, Porfavor escolha uma opcao valida" ; menuOpcao}
 
 menuOpcao :: IO ()
@@ -47,6 +63,7 @@ menuOpcao = do
     putStrLn "1 - listar filmes"
     putStrLn "2 - listar filmes disponiveis"
     putStrLn "3 - listar os alugados"
+    putStrLn "4 - Realizar Aluguel"
     opcao <- getLine
     if (read opcao) == 0 then putStrLn("Fim") else do opcaoEscolhida (read opcao)
     
