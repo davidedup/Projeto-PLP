@@ -58,8 +58,25 @@ listarFilmesPorGenero:: [Filme] -> String -> String
 listarFilmesPorGenero [] gen = ""
 listarFilmesPorGenero (x:xs) gen = if ehDoGenero x gen then toStringFilme x ++ ['\n'] ++ listarFilmesPorGenero xs gen else listarFilmesPorGenero xs gen
 
+
+infoFilme :: Filme -> String  
+infoFilme (Filme {indice = i, nome = n, genero = g, ano = a, descricao = d, disponivel = dis }) = "- Nome: " ++ n ++ ['\n'] ++ "- Genero: " ++ g ++ ['\n'] ++ "- Ano de Lançamento: " ++ a ++ ['\n'] ++ "- Descrição: " ++ d ++ ['\n'] ++ "- Disponivel: "  ++ show dis 
+
+
+opcoesVisuFilme:: IO()
+opcoesVisuFilme = do
+    putStrLn "==> Escolha o indice do filme que você deseja visualizar:"
+    indice <- getLine
+    let parseIndice = read (indice)
+    let indiceNaLista = parseIndice-1
+
+
+    if parseIndice > 0 && parseIndice < ( length filmesCadastrados )+1 then putStrLn ( infoFilme ( filmesCadastrados !!  indiceNaLista  ) ) else putStrLn "Algo deu errado!"
+
+
+
 opcaoEscolhida :: Int -> IO()
-opcaoEscolhida opcao | opcao == 1 = do {putStrLn (listarFilmes filmesCadastrados) ; menuOpcao} 
+opcaoEscolhida opcao | opcao == 1 = do {putStrLn (listarFilmes filmesCadastrados) ; menuListagem;} 
                      | opcao == 2 = do {putStrLn (listarFilmesDisponiveis filmesCadastrados) ; menuOpcao}
                      | opcao == 3 = do {putStrLn (listarFilmes meusAlugueis) ; menuOpcao}
                      | opcao == 4 = do {realizaAluguel ; menuOpcao}
@@ -67,12 +84,23 @@ opcaoEscolhida opcao | opcao == 1 = do {putStrLn (listarFilmes filmesCadastrados
                      | otherwise =  do {putStrLn "Opcao invalida, Porfavor escolha uma opcao valida" ; menuOpcao}
 
 
+
+menuListagem:: IO()
+menuListagem = do
+    putStrLn "0 - Voltar para o menu principal" 
+    putStrLn "1 - Descobrir mais informações sobre um filme"
+
+    opcao <- getLine
+
+    if (read opcao) == 1 then do opcoesVisuFilme else if (read opcao) == 0 then menuOpcao else putStrLn "==> Opção inválida" ; menuOpcao
+
+
 menuOpcao :: IO ()
 menuOpcao = do
     putStrLn "0 - Sair" 
-    putStrLn "1 - Listar filmes"
+    putStrLn "1 - Listar todos filmes"
     putStrLn "2 - Listar filmes disponiveis"
-    putStrLn "3 - Listar os alugados"
+    putStrLn "3 - Listar os seus filmes alugados"
     putStrLn "4 - Realizar Aluguel"
     putStrLn "5 - Listar filmes por genero"
     opcao <- getLine
