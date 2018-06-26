@@ -175,7 +175,7 @@ listarFilmesPorGenero (x:xs) gen = if ehDoGenero x gen then toStringFilme x ++ [
 
 
 infoFilme :: Filme -> String  
-infoFilme (Filme {indice = i, nome = n, genero = g, ano = a, descricao = d}) = "- Nome: " ++ n ++ ['\n'] ++ "- Genero: " ++ g ++ ['\n'] ++ "- Ano de Lançamento: " ++ a ++ ['\n'] ++ "- Descrição: " ++ d 
+infoFilme filme = "- Nome: " ++ (nome filme) ++ ['\n'] ++ "- Genero: " ++ (genero filme) ++ ['\n'] ++ "- Ano de Lançamento: " ++ (ano filme) ++ ['\n'] ++ "- Descrição: " ++ (descricao filme) 
 
 
 visualizarInfoFilme:: IO()
@@ -211,6 +211,24 @@ menuListagem = do
     printEspaco
 
 
+enviarSugestao :: IO()
+enviarSugestao = do
+    printEspaco
+    putStr "==> Digite o nome do filme que deseja sugerir: "
+    nomeFilme <- getLine
+    appendFile "sugetoes.txt" (nomeFilme ++ "\n")
+    printEspaco
+
+
+visualizarSugetoes :: IO()
+visualizarSugetoes = do
+    printEspaco
+    putStrLn "==> Suas sugetões de filmes:\n"
+    sugetoes <- readFile "sugetoes.txt"
+    putStrLn sugetoes
+    printEspaco
+
+
 opcaoEscolhida :: Int -> IO()
 opcaoEscolhida opcao | opcao == 1 = do {imprimeFilmes ; menuListagem; menuOpcao} 
                      | opcao == 2 = do {imprimeDisponiveis ; menuOpcao}
@@ -218,7 +236,8 @@ opcaoEscolhida opcao | opcao == 1 = do {imprimeFilmes ; menuListagem; menuOpcao}
                      | opcao == 4 = do {realizarAluguel ; menuOpcao}
                      | opcao == 5 = do {realizarDevolucao ; menuOpcao}
                      | opcao == 6 = do {imprimeListarFilmesPorGenero; menuOpcao}    
-                     | opcao == 7 = do {realizarDevolucao; menuOpcao}
+                     | opcao == 7 = do {enviarSugestao; menuOpcao}  
+                     | opcao == 8 = do {visualizarSugetoes; menuOpcao}  
                      | otherwise =  do {putStrLn "Opcao invalida, Porfavor escolha uma opcao valida" ; menuOpcao}
 
 
@@ -231,6 +250,8 @@ menuOpcao = do
     putStrLn "4 - Realizar Aluguel"
     putStrLn "5 - Realizar Devolução"
     putStrLn "6 - Listar filmes por genero"
+    putStrLn "7 - Enviar sugestão de filme"
+    putStrLn "8 - Visuzalizar suas sugestões de filmes"
     putStr "\nOpcao: "
     opcao <- getLine
     if (read opcao) == 0 then putStrLn("Fim") else do opcaoEscolhida (read opcao)
