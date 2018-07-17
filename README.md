@@ -26,3 +26,4 @@ O sistema irá fornecer, virtualmente, toda a logística que uma locadora de fil
 * O usuário poderá selecionar um filme, na lista de filmes disponíveis, e visualizar mais informações sobre o mesmo. Tais como: diretor, ano de lançamento.
 * O usuário poderá ter acesso a uma listagem de todos os filmes que se encontram reservados naquele momento.
 
+---Nas linguagens Prolog e Haskell apenas algumas das funcionalidades acima foram implementadas. 
