@@ -1,5 +1,8 @@
 :- initialization(main).
 
+:- dynamic
+	alugado(filme(_,_,_,_,_)).
+
 % filme(cod, nome, genero, ano, descrição).
 filme(1, "Vingadores: Guerra do Infinito", "fantasia", "2018", "Homem de Ferro, Thor, Hulk e os Vingadores se unem para combater seu inimigo mais poderoso, o maligno Thanos. Em uma missão para coletar todas as seis pedras infinitas, Thanos planeja usá-las para infligir sua vontade maléfica sobre a realidade.").
 filme(2, "Black Panther", "fantasia", "2018",  "Conheça a história de T'Challa, príncipe do reino de Wakanda, que perde o seu pai e viaja para os Estados Unidos, onde tem contato com os Vingadores. Entre as suas habilidades estão a velocidade, inteligência e os sentidos apurados.").
@@ -24,11 +27,30 @@ imprimeFilmes() :- writeln("Os filmes são:"),
     			   findall(Nome, filme(_, Nome,_,_,_), Filmes),
     			   listaFilmes(Filmes, 1).
 
+realizaAluguel(Cod, Nome, Ano, Genero, Descricao) :- assertz(alugado(filme(Cod, Nome, Ano, Genero, Descricao))),
+    												 write("Filme alugado com sucesso").
+verificaFilme(Cod) :- call(filme(Cod,_,_,_,_)), !;
+                      call(alugado(filme(Cod,_,_,_,_))), !;
+                      writeln("Filme nao existe ou esta indisponivel!").
+
+listaAlugados() :- writeln("Os filmes alugaos são:"), 
+    			   findall(Filmes, alugado(Filme), Filmes),
+    			   toStringLista(Filmes).
+
+toStringLista([]).
+toStringLista([filmes(Cod, Nome, _,_,_)|T]) :- write(Cod), write(" - "), writeln(Nome) , toStringLista(T).  
+                          
 opcao(0) :- !.
 opcao(1) :- imprimeFilmes().
 opcao(2) :- write("Lista disponiveis").
-opcao(3) :- write("Lisa alugados").
-opcao(4) :- write("Realiza aluguel").
+opcao(3) :- listaAlugados().
+
+opcao(4) :- write("Digite o codigo do Filme que deseja alugar:"),
+    		read(Cod),
+            verificaFilme(Cod),
+            filme(Cod, Nome, Ano, Genero, Descricao),                                  
+            realizaAluguel(Cod, Nome, Ano, Genero, Descricao).
+
 opcao(5) :- write("Realiza devolução").
 opcao(6) :- write("Lista por genero").
 opcao(7) :- write("Enviar sugestão de filmes").
@@ -52,4 +74,3 @@ menuOpcoes() :-
 main :-
     menu(),
     menuOpcoes().
-
