@@ -10,6 +10,7 @@ filme(3, "Deadpool 2", "fantasia", "2018", "Sequência das aventuras do Mercená
 filme(4, "Oito Mulheres e um Segredo", "thriller", "2018", "Recém-saída da prisão, Debbie Ocean planeja executar o assalto do século em pleno Met Gala, em Nova York, com o apoio de Lou, Nine Ball, Amita, Constance, Rose, Daphne Kluger e Tammy.").
 filme(5, "A Origem", "ficção", "2010", "Don Cobb é um ladrão que invade os sonhos das pessoas e rouba segredos do subconsciente. As habilidades especiais de Cobb fazem com que ele seja procurado pelo mundo da espionagem empresarial, mas lhe custa tudo que ama. Cobb recebe uma missão impossível: plantar uma ideia na mente de uma pessoa. Se for bem-sucedido, será o crime perfeito, mas um amigo prevê todos os passos de Cobb.").
 filme(6, "Moulin Rouge: Amor em Vermelho","romance", "2001", "Don Cobb é um ladrão que invade os sonhos das pessoas e rouba segredos do subconsciente. As habilidades especiais de Cobb fazem com que ele seja procurado pelo mundo da espionagem empresarial, mas lhe custa tudo que ama. Cobb recebe uma missão impossível: plantar uma ideia na mente de uma pessoa. Se for bem-sucedido, será o crime perfeito, mas um amigo prevê todos os passos de Cobb.").
+filme(7,"a","a","a","a").
 % colocar resto dos filmes...zzzz
 
 sugestao("").
@@ -37,8 +38,7 @@ verificaFilme(Cod) :- call(filme(Cod,_,_,_,_)), !;
                       writeln("Filme nao existe ou esta indisponivel!").
 
 listaAlugados() :- writeln("Os filmes alugaos são:"), 
-    			   findall(Filmes, alugado(Filme), Filmes),
-    			   toStringLista(Filmes).
+    			   forall(alugado(Filme), writeln(Filme)).
 
 toStringLista([]).
 toStringLista([filmes(Cod, Nome, _,_,_)|T]) :- write(Cod), write(" - "), writeln(Nome) , toStringLista(T).  
@@ -62,8 +62,10 @@ opcao(5) :- write("Realiza devolução").
 opcao(6) :- write("Lista por genero").
 opcao(7) :- writeln("Escreva sua sugestão:"), read(S), enviarSugestao(S).
 opcao(8) :- listaSugestoes().
+opcao(X) :- writeln("Opcao invalida, tente outra!").
 
 menuOpcoes() :- 
+	writeln("\nUse sempre um ponto no final de cada instrucao"), 
     writeln("0 - Sair"), 
     writeln("1 - Listar todos filmes"),
     writeln("2 - Listar filmes disponiveis"),
@@ -74,6 +76,7 @@ menuOpcoes() :-
     writeln("7 - Enviar sugestão de filme"),
     writeln("8 - Visualizar suas sugestões de filmes"),
     writeln("\nOpcao: "),
+    writeln("\n"),
     read(A),
     opcao(A),
     menuOpcoes().
