@@ -12,8 +12,11 @@ filme(5, "A Origem", "ficção", "2010", "Don Cobb é um ladrão que invade os s
 filme(6, "Moulin Rouge: Amor em Vermelho","romance", "2001", "Don Cobb é um ladrão que invade os sonhos das pessoas e rouba segredos do subconsciente. As habilidades especiais de Cobb fazem com que ele seja procurado pelo mundo da espionagem empresarial, mas lhe custa tudo que ama. Cobb recebe uma missão impossível: plantar uma ideia na mente de uma pessoa. Se for bem-sucedido, será o crime perfeito, mas um amigo prevê todos os passos de Cobb.").
 % colocar resto dos filmes...zzzz
 
+sugestao("").
+%sugestao("Sugestes para a locadora2").
+
 menu() :- 
-    writeln("██████╗ ███████╗███╗   ███╗    ██╗   ██╗██╗███╗   ██╗██████╗  ██████╗ "),
+	writeln("██████╗ ███████╗███╗   ███╗    ██╗   ██╗██╗███╗   ██╗██████╗  ██████╗ "),
 	writeln("██╔══██╗██╔════╝████╗ ████║    ██║   ██║██║████╗  ██║██╔══██╗██╔═══██╗"),
 	writeln("██████╔╝█████╗  ██╔████╔██║    ██║   ██║██║██╔██╗ ██║██║  ██║██║   ██║"),
 	writeln("██╔══██╗██╔══╝  ██║╚██╔╝██║    ╚██╗ ██╔╝██║██║╚██╗██║██║  ██║██║   ██║"),
@@ -39,7 +42,11 @@ listaAlugados() :- writeln("Os filmes alugaos são:"),
 
 toStringLista([]).
 toStringLista([filmes(Cod, Nome, _,_,_)|T]) :- write(Cod), write(" - "), writeln(Nome) , toStringLista(T).  
-                          
+
+listaSugestoes() :- forall(sugestao(S),writeln(S)).
+
+enviarSugestao(Sugestao) :- assertz(sugestao(Sugestao)).
+
 opcao(0) :- !.
 opcao(1) :- imprimeFilmes().
 opcao(2) :- write("Lista disponiveis").
@@ -53,8 +60,8 @@ opcao(4) :- write("Digite o codigo do Filme que deseja alugar:"),
 
 opcao(5) :- write("Realiza devolução").
 opcao(6) :- write("Lista por genero").
-opcao(7) :- write("Enviar sugestão de filmes").
-opcao(8) :- write("Vizualizar sugestões").
+opcao(7) :- writeln("Escreva sua sugestão:"), read(S), enviarSugestao(S).
+opcao(8) :- listaSugestoes().
 
 menuOpcoes() :- 
     writeln("0 - Sair"), 
@@ -65,7 +72,7 @@ menuOpcoes() :-
     writeln("5 - Realizar Devolução"),
     writeln("6 - Listar filmes por genero"),
     writeln("7 - Enviar sugestão de filme"),
-    writeln("8 - Visuzalizar suas sugestões de filmes"),
+    writeln("8 - Visualizar suas sugestões de filmes"),
     writeln("\nOpcao: "),
     read(A),
     opcao(A),
