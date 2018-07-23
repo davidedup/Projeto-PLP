@@ -27,6 +27,19 @@ menu() :-
 listaFilmes([], _).
 listaFilmes([H|T], Cod) :-  write(Cod), write(" - "), writeln(H), Cod1 is Cod + 1, listaFilmes(T, Cod1).
 
+listaDisponiveis():- findall(Nome, filme(_, Nome,_,_,_), Filmes), % Gera uma lista com os nomes de todos os filmes do sistema
+					 imprimeDisponiveis(Filmes). % Repassa pra regra imprimeDisponiveis a lista com todos os filmes
+		  
+imprimeDisponiveis([]).		  
+imprimeDisponiveis([H|T]):- not(alugado(filme(_,H,_,_,_))) -> % Se o filme nao estiver alugado
+							filme(C,H,_,_,_), % Recupera o codigo do filme
+							write(C), % Printa o codigo
+							write(" - "), % Printa ajuste
+							writeln(H), % Printa o nome do filme
+							imprimeDisponiveis(T) ; % Chama recursivamente passando o tail
+							imprimeDisponiveis(T) .	% Se estiver alugado apenas chama recursivamente passando o tail	  
+		  
+
 imprimeFilmes() :- writeln("Os filmes são:"), 
     			   findall(Nome, filme(_, Nome,_,_,_), Filmes),
     			   listaFilmes(Filmes, 1).
@@ -48,8 +61,12 @@ listaSugestoes() :- forall(sugestao(S),writeln(S)).
 enviarSugestao(Sugestao) :- assertz(sugestao(Sugestao)).
 
 opcao(0) :- !.
+
 opcao(1) :- imprimeFilmes().
-opcao(2) :- write("Lista disponiveis").
+
+opcao(2) :- writeln("Abaixo estao os filmes disponiveis para aluguel:"),
+			listaDisponiveis().
+			
 opcao(3) :- listaAlugados().
 
 opcao(4) :- write("Digite o codigo do Filme que deseja alugar:"),
@@ -62,7 +79,7 @@ opcao(5) :- write("Realiza devolução").
 opcao(6) :- write("Lista por genero").
 opcao(7) :- writeln("Escreva sua sugestão:"), read(S), enviarSugestao(S).
 opcao(8) :- listaSugestoes().
-opcao(X) :- writeln("Opcao invalida, tente outra!").
+
 
 menuOpcoes() :- 
 	writeln("\nUse sempre um ponto no final de cada instrucao"), 
