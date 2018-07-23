@@ -26,10 +26,10 @@ menu() :-
 listaFilmes([], _).
 listaFilmes([H|T], Cod) :-  write(Cod), write(" - "), writeln(H), Cod1 is Cod + 1, listaFilmes(T, Cod1).
 
-listarPorGenero(Gen):- 	write("Aqui estão todos os filmes do sistema com o genero "),
-						writeln(Gen),
-						findall(Nome, filme(_, Nome,Gen,_,_), Filmes),
-						imprimePorGenero(Filmes).
+listarPorGenero(Gen):- 	write("Aqui estão todos os filmes do sistema com o genero "), % Print da frase inicial
+						writeln(Gen), % Print do genero
+						findall(Nome, filme(_, Nome,Gen,_,_), Filmes), % Retorna uma Lista com todos os filmes que possuem o genero recebido como parametro
+						imprimePorGenero(Filmes). % Vai para o metodo de imprimir passando a lista de filmes filtrada
 
 imprimePorGenero([]).
 imprimePorGenero([H|T]):-	filme(C,H,_,_,_), % Recupera o codigo do filme
