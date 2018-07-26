@@ -36,7 +36,7 @@ opcao(3) :- listaAlugados().
 opcao(4) :- write("Digite o codigo do Filme que deseja alugar:"),
 			read(Cod),
 			verificaFilme(Cod),
-			not(alugado(filme(Cod, Nome, Ano, Genero, Descricao))),                                  
+			filme(Cod, Nome, Ano, Genero, Descricao),                                  
 			realizaAluguel(Cod, Nome, Ano, Genero, Descricao).
 		
 opcao(5) :- write("Realiza devolução").
@@ -116,7 +116,8 @@ imprimeFilmes() :- writeln("Os filmes são:"), % Printa um enunciado para os fil
 realizaAluguel(Codigo, Nome, Ano, Genero, Descricao) :- assertz(alugado(filme(Codigo, Nome, Ano, Genero, Descricao))), % Realiza aluguel
     													write("Filme alugado com sucesso"). % Passa a mensagem de aluguel 
 
-verificaFilme(Codigo) :- 	not(alugado(filme(Codigo,_,_,_,_))), !; % Verifica se está alugado
+verificaFilme(Codigo) :- 	call(filme(Codigo,_,_,_,_)), !; % Procura filme com determinado código
+							not(alugado(filme(Codigo,_,_,_,_))), !; % Verifica se não está alugado
                       		writeln("Filme nao existe ou esta indisponivel!"). % Printa mensagem
 
 listaAlugados() :- writeln("Os filmes alugaos são:"), % Printa mensagem
