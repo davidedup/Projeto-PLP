@@ -12,7 +12,6 @@ filme(5, "A Origem", 'ficção', "2010", "Don Cobb é um ladrão que invade os s
 filme(6, "Moulin Rouge: Amor em Vermelho",'romance', "2001", "Don Cobb é um ladrão que invade os sonhos das pessoas e rouba segredos do subconsciente. As habilidades especiais de Cobb fazem com que ele seja procurado pelo mundo da espionagem empresarial, mas lhe custa tudo que ama. Cobb recebe uma missão impossível: plantar uma ideia na mente de uma pessoa. Se for bem-sucedido, será o crime perfeito, mas um amigo prevê todos os passos de Cobb.").
 filme(7, "Brilho eterno de uma mente sem lembranças", 'drama', "2004", "Joel se surpreende ao saber que seu amor verdadeiro, Clementine, o apagou completamente de sua memória. Ele decide fazer o mesmo, mas muda de ideia. Preso dentro da própria mente enquanto os especialistas se mantêm ocupados em seu apartamento, Joel precisa avisá-los para parar.").
 filme(8, "Donnie Darko", 'drama', "2001", "Donnie é um jovem excêntrico que despreza a grande maioria de seus colegas de escola. Ele tem visões, em especial de Frank, um coelho gigante que só ele consegue ver e que o encoraja a fazer brincadeiras humilhantes com quem o cerca. Um dia, uma de suas visões o atrai para fora de casa e lhe diz q'ue o mundo acabará dentro de um mês. Donnie inicialmente não acredita, mas, momentos depois, a turbina de um avião cai em sua casa e ele começa a se perguntar qual é o fundo de verdade dessa previsão.").
-% colocar resto dos filmes...zzzz
 
 sugestao(""). %sugestao("Sugestes para a locadora2").     
 
@@ -25,23 +24,28 @@ menu() :-
 	writeln("╚═════╝ ╚══════╝╚═╝     ╚═╝      ╚═══╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ ").       
 
 opcao(0) :- halt.
-
-opcao(1) :- imprimeFilmes().
+	
+opcao(1) :- imprimeFilmes(),
+			writeln("Digite o codigo do Filme que deseja saber mais sobre:"),
+			read(Codigo),
+			filmeInfo(Codigo).
 
 opcao(2) :- writeln("Abaixo estao os filmes disponiveis para aluguel:"),
 			listaDisponiveis().
 					
 opcao(3) :- listaAlugados().
 	
-opcao(4) :- write("Digite o codigo do Filme que deseja alugar:"),
+opcao(4) :- writeln("Digite o codigo do Filme que deseja alugar:"),
 			read(Cod),
 			verificaFilme(Cod),
-			filme(Cod, Nome, Ano, Genero, Descricao),                                  
+			filme(Cod, Nome, Ano, Genero, Descricao),                       
 			realizaAluguel(Cod, Nome, Ano, Genero, Descricao).
 		
-opcao(5) :- write("Realiza devolução").
+opcao(5) :- writeln("Digite o codigo do Filme que deseja devolver:"),
+			read(Cod),                         
+			realizaDevolucao(Cod, Nome, Ano, Genero, Descricao).
 
-opcao(6) :- write("Digite o nome do genero que voce deseja filtrar:"),
+opcao(6) :- writeln("Digite o nome do genero que voce deseja filtrar:"),
 			read(Genero),
 			listarPorGenero(Genero).
 	
@@ -74,6 +78,15 @@ main :-
 	menu(),
 	menuOpcoes().
 
+filmeInfo(Codigo):- call(filme(Codigo, Nome, Genero, Ano, Sinopse)),
+		write("Nome: "),
+		writeln(Nome),
+		write("Gênero: "),
+		writeln(Genero),
+		write("Ano: "),
+		writeln(Ano),
+		write("Sinopse: "),
+		writeln(Sinopse).
 
 listaFilmes([], _).
 listaFilmes([Head|Tail], Codigo) :- write(Codigo), % Printa o codigo
@@ -82,7 +95,7 @@ listaFilmes([Head|Tail], Codigo) :- write(Codigo), % Printa o codigo
 									Codigo1 is Codigo + 1, % Aumenta o número do código
 									listaFilmes(Tail, Codigo1). % Chama recursivamente passando o tail
 
-listarPorGenero(Genero) :- 	write("Aqui estão todos os filmes do sistema com o genero "), % Print da frase inicial
+listarPorGenero(Genero) :- 	writeln("Aqui estão todos os filmes do sistema com o genero:"), % Print da frase inicial
 							writeln(Genero), % Print do genero
 							findall(Nome, filme(_,Nome,Genero,_,_), Filmes), % Retorna uma Lista com todos os filmes que possuem o genero recebido como parametro
 							imprimePorGenero(Filmes). % Vai para o metodo de imprimir passando a lista de filmes filtrada
@@ -109,15 +122,18 @@ imprimeDisponiveis([Head|Tail]):-	not(alugado(filme(_,Head,_,_,_))) -> % Se o fi
 									imprimeDisponiveis(Tail) .	% Se estiver alugado apenas chama recursivamente passando o tail	  
 		  
 
-imprimeFilmes() :- writeln("Os filmes são:"), % Printa um enunciado para os filmes listados
-    			   findall(Nome, filme(_, Nome,_,_,_), Filmes), % Encontra todos os filmes
-    			   listaFilmes(Filmes, 1). % Chama os filmes recursivamente
+imprimeFilmes() :-	writeln("Os filmes são:"), % Printa um enunciado para os filmes listados
+    				findall(Nome, filme(_, Nome,_,_,_), Filmes), % Encontra todos os filmes
+    				listaFilmes(Filmes, 1). % Chama os filmes recursivamente
 
-realizaAluguel(Codigo, Nome, Ano, Genero, Descricao) :- assertz(alugado(filme(Codigo, Nome, Ano, Genero, Descricao))), % Realiza aluguel
-    													write("Filme alugado com sucesso"). % Passa a mensagem de aluguel 
+realizaAluguel(Codigo, Nome, Ano, Genero, Descricao) :- 
+														assertz(alugado(filme(Codigo, Nome, Ano, Genero, Descricao))), % Realiza aluguel
+    													writeln("Filme alugado com sucesso"). % Passa a mensagem de aluguel
 
-verificaFilme(Codigo) :- 	call(filme(Codigo,_,_,_,_)), !; % Procura filme com determinado código
-							not(alugado(filme(Codigo,_,_,_,_))), !; % Verifica se não está alugado
+realizaDevolucao(Codigo, Nome, Ano, Genero, Descricao) :- 	retract(alugado(filme(Codigo, Nome, Ano, Genero, Descricao))), % Realiza devolucao
+															writeln("Filme está disponível na lista."). % Passa a mensagem de devolucao
+
+verificaFilme(Codigo) :-	not(alugado(filme(Codigo,_,_,_,_))), !; % Verifica se não está alugado
                       		writeln("Filme nao existe ou esta indisponivel!"). % Printa mensagem
 
 listaAlugados() :- writeln("Os filmes alugaos são:"), % Printa mensagem
