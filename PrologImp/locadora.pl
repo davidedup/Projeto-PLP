@@ -25,9 +25,14 @@ menu() :-
 opcao(0) :- halt.
 	
 opcao(1) :- imprimeFilmes(),
-			writeln("Digite o codigo do Filme que deseja saber mais sobre:"),
+			writeln("Voce deseja ver mais informacoes sobre um filme?"),
+			writeln("1 - Sim"),
+			writeln("2 - Não"),
+			read(Op),
+			Op == 1 -> 	writeln("Digite o codigo do Filme que deseja saber mais sobre:"),
 			read(Codigo),
-			filmeInfo(Codigo).
+			filmeInfo(Codigo) ; 
+			menuOpcoes().
 
 opcao(2) :- listaDisponiveis().
 					
