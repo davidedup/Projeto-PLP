@@ -56,7 +56,7 @@ opcao(7) :- writeln("Escreva sua sugestão com o formato <'nome do filme'.>:"),
 		
 opcao(8) :- listaSugestoes().
 	
-opcao(X) :- writeln("Opcao invalida, tente outra!").
+opcao(X) :- write(X), write(" não é uma opção válida, tente outra!").
 				
 menuOpcoes() :- 
 	writeln("\nUse sempre um ponto no final de cada instrucao"), 
